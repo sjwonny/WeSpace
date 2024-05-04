@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lfsty">
+
+
+<select id="selectstyleList" resultType="lfsty">
+		SELECT * FROM lfsty
+</select>
+
+
+<!-- 내 관심사(라이프스타일) -->
+<select id="myLfsty" resultType="lfsty" parameterType="int">
+	select l.lfsty_item from guest g, interest i, lfsty l where g.guest_no = i.guest_no and i.lfsty_no = l.lfsty_no and i.guest_no = #{guest_no}
+</select>
+
+</mapper>

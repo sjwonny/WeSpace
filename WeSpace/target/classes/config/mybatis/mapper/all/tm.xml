@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tm">
+
+	<select id="tm_List" resultType="tm">
+		select * from tm order by tm_time asc
+	</select>
+	<select id="tm_List2" resultType="tm">
+		select tm_time from tm where tm_no +1 order by tm_time desc
+	</select>
+	
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="facility">
+
+	<select id="selectList" resultType="facility">
+		select * from FACILITY order by facility_no 
+	</select>
+	
+	<select id="selectOne" resultType="facility" parameterType="int">
+		select * from facility where facility_no = #{facility_no}
+	</select>
+
+	<insert id="insert" parameterType="facility">
+		insert into facility values(facility_seq.nextval,#{facility_name})
+
+	</insert>
+	
+	<update id="update" parameterType="facility">
+		update facility set
+			facility_name=#{facility_name},
+			where facility_no=#{facility_no}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		select * from facility where facility_no=#{facility_no}
+	</delete>
+	
+	<select id="detailFacility" parameterType="int" resultType="facility">
+	    select f.* from facility f, facility_sel fs where fs.de_sp_info_no = #{de_sp_info_no} and f.facility_no = fs.facility_no
+	</select>
+	
+	<insert id="facility_selinsert" parameterType="int">
+		insert into facility_sel values(FACILITY_SEL_seq.nextVal,de_sp_info_seq.CURRVAL,#{facility_no})
+	</insert>
+	
+	
+	
+	
+</mapper>

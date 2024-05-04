@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybadge">
+		
+<select id="badgeCnt" parameterType="int" resultType="int">
+	select count(m.mybadge_no) from badge b, mybadge m, guest g  where b.badge_no = m.badge_no and  m.guest_no = g.guest_no and m.guest_no = #{guest_no}
+</select>
+
+	
+
+	
+
+ 	
+ 	
+ 	
+ 
+ 	
+</mapper>

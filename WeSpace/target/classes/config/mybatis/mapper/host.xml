@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="host">
+		
+	
+	<!-- 로그인 한 정보가 존재하는지 -->
+	<select id="checkLogin" resultType="int" parameterType="host">
+		select host_no
+		from host where host_email = #{host_email} and host_pw = #{host_pw} and status = 0
+	</select>
+	
+	
+	<!-- 닉네임 중복체크 -->
+	<select id="checkId" parameterType="String" resultType="String">
+		select host_nick from host where host_nick=#{host_nick} and status = 0
+	</select> 
+	
+	
+	
+	<insert id="insertJoin" parameterType="host">
+		insert into host(host_no,host_nick,host_email,host_pw,host_phone,email_agree,sns_agree,snscnnt_agree,host_name,host_gender,host_birth,status) values(host_seq.nextval,#{host_nick},#{host_email},#{host_pw},#{host_phone},#{email_agree},#{sns_agree},#{snscnnt_agree},#{host_name},#{host_gender},#{host_birth},0)
+	</insert>
+	
+	
+	<select id="findHost_email" resultType="String" parameterType="host"><!-- id니까 String , 이름과 전화번호가 같을 때의 회원 아이디 찾기 -->
+		select host_email from host where host_name = #{host_name} and host_phone = #{host_phone} and status = 0
+	</select>
+	
+	
+	<select id="findHost_pw" resultType="String" parameterType="host"> <!-- pw니까 String , 아이디, 이름, 전화번호가 같을 때의 회원의 비번 찾기 -->
+		select host_pw from host where host_email=#{host_email} and host_name = #{host_name} and host_phone = #{host_phone} and status = 0
+	</select>
+	
+	
+	<update id="updateImg" parameterType="host">
+		update  host set  host_img = #{host_img} where host_no = #{host_no}
+	</update>
+	
+ 	<select id="selectOne" resultType="host" parameterType="int">
+ 		select * from host where host_no = #{host_no} 
+ 	</select>
+ 	
+ 	<!-- 회원정보 수정 -->
+ 	<update id="updateInfo" parameterType="host">
+ 		update host set host_nick=#{host_nick},host_phone = #{host_phone},email_agree = #{email_agree},sns_agree = #{sns_agree},snscnnt_agree = #{snscnnt_agree}, host_name = #{host_name}, host_gender = #{host_gender}, host_birth = #{host_birth} where host_no = #{host_no}
+ 	</update>
+ 	
+ 	<!-- 회원 탈퇴 -->
+	<delete id="unregister" parameterType="int"> 
+		update host set status = 1 where host_no = #{host_no}
+	</delete> 
+ 	
+</mapper>

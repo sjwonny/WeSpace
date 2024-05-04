@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="space_uses">
+	
+	<select id="selectAll" resultType="space_uses">
+		select * from space_uses
+	</select>
+	
+	<select id="selectOne" resultType="space_uses" parameterType="int">
+		select * from space_uses where space_uses_no=#{space_uses_no}
+	</select>
+
+	<insert id="insert" parameterType="space_uses">
+		insert into space_uses values(
+			space_uses_seq.nextval,
+			#{space_uses_name},
+			#{space_type_no},
+			#{space_icon})
+	</insert>
+	
+	
+	<delete id="delete" parameterType="int">
+		delete space_uses where space_uses_no=#{space_uses_no}
+	</delete>
+
+
+	<select id="usesList" resultType="map">
+		select  space_type_name, space_uses_no, space_uses_name
+		from space_type tp, space_uses us 
+		where tp.space_type_no = us.space_type_no 
+		order by us.space_uses_no
+	</select>
+	
+	
+	<!-- 내가 선택했던 용도 보여주기 -->
+	<select id="showMyUses" resultType="map" parameterType="java.util.Map">            <!-- 이거 그냥 map이라고 쓰면 오류난다고 함 -->
+	select s.space_uses_no, s.space_uses_name
+	from basic_info b,space_info sf, space_uses s, select_use su , space_type t 
+	where  b.basic_info_no = #{basic_info_no} and t.space_type_no = s.space_type_no
+	and s.space_uses_no = su.space_uses_no 
+	and sf.space_info_no = su.space_info_no and sf.space_info_no = #{space_info_no}
+	</select>
+	
+	</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

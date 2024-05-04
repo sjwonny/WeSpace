@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bsns_info">
+
+	<insert id="bsns_info_insert" parameterType="bsns_info"> <!-- 사업자정보(예약/정산정보) -->
+		insert into bsns_info values(bsns_info_seq.nextval,#{bsns_info_paymethod},#{bsns_info_bname},
+		#{bsns_info_rname},#{bsns_type_no},#{bsns_info_mainbsns},#{bsns_info_mainevent},#{bsns_info_badr},
+		#{bsns_info_phone},account_info_seq.CURRVAL,refund_standard_seq.CURRVAL ,#{bsns_info_bnumber})
+	</insert>
+
+	<insert id="account_info_insert" parameterType="account_info"> <!-- 계좌정보 -->
+		insert into account_info values(account_info_seq.nextval,#{bank_no},#{account_info_num},#{account_info_name})
+	</insert>
+	
+
+	
+	<insert id="refund_standard_insert" parameterType="refund_standard"> <!-- 환불기준 -->
+		insert into refund_standard values(refund_standard_seq.nextval,100,#{day7},#{day6},#{day5},#{day4},#{day3},#{day2},#{day1},#{dday})
+	</insert>
+	
+	
+	
+	<!-- insert 후에 그 시퀀스 가져오기 -->
+	<select id="bsns_info_currseq" resultType="int">
+	 select bsns_info_seq.currval from dual
+	</select>
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

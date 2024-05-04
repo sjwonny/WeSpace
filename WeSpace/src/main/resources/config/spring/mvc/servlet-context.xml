@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+ <!--<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>-->
+	<context:component-scan base-package="com.wespace.space" /> 
+ 
+
+ 	<beans:bean class="cat1.member.host.login.LoginController">
+ 		<beans:constructor-arg ref="loginService"/>
+ 	</beans:bean>
+ 	
+ 	<beans:bean class="cat1.member.guest.login.LoginController">
+ 		<beans:constructor-arg ref="gloginService"/>
+ 		<beans:constructor-arg ref="profileService"/>
+ 		<beans:constructor-arg ref="RsrvtService"/>
+ 		<beans:constructor-arg ref="cpnService"/>
+ 	</beans:bean>
+ 	
+ 	
+ 	<beans:bean class="cat1.profile.controller.ProfileController">
+ 		<beans:constructor-arg ref="profileService"/>
+ 		<beans:constructor-arg ref="cpnService"/>
+ 	</beans:bean>
+ 	
+ 	<beans:bean class="cat1.coupon.controller.CpnController">
+ 		<beans:constructor-arg ref="cpnService"/>
+ 	</beans:bean>
+ 	
+ 	<beans:bean class="cat2.controller.SpaceController">
+ 		<beans:constructor-arg ref="spaceService"/>
+ 	</beans:bean>
+ 	
+ 	 <beans:bean class="cat3.space_reg.controller.Space_RegController">
+ 		<beans:constructor-arg ref="space_regService"/>
+ 		<beans:constructor-arg ref="spaceService"/>
+ 		<beans:constructor-arg ref="connectionService"/>
+ 		<beans:constructor-arg ref="etcService"/>
+ 		<beans:constructor-arg ref="Bsns_InfoService"/>
+ 	</beans:bean> 
+ 	
+ 	<beans:bean class="cat4.detail.controller.DE_SP_Controller">
+		<beans:constructor-arg ref="DE_SP_Service" />
+		<beans:constructor-arg ref="spaceService" />
+		<beans:constructor-arg ref="connectionService" />
+		<beans:constructor-arg ref="space_regService"/>
+		<beans:constructor-arg ref="etcService"/>
+	</beans:bean>
+	
+	
+ 	<beans:bean class="cat2.rsrvt.controller.RsrvtController">
+		<beans:constructor-arg ref="RsrvtService"/>
+	</beans:bean>
+	
+</beans:beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

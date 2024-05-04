@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cpn">
+
+
+
+
+<insert id="insertCoupon" parameterType="cpn">
+	insert into cpn values (cpn_seq.nextval,#{cpn_name},#{cpn_price},#{cpn_miniper},#{cpn_cnt},#{cpn_per},#{cpn_type})
+</insert>
+
+
+
+<!-- 내 쿠폰조회(디벨로퍼 O) -->
+<select id="selectMycpn" parameterType="int" resultType="map">
+	  select m.*,c.*,g.*,m.mycpn_date + c.cpn_per a from mycpn m, cpn c ,guest g where m.cpn_no = c.cpn_no and m.guest_no = g.guest_no and m.guest_no =#{guest_no}
+</select>
+ 
+ 
+ <!-- 내 쿠폰 개수 -->
+ <select id="countMyCpn" parameterType="int" resultType="int">
+  	select count(mycpn_no) from mycpn m,cpn c, guest g where c.cpn_no = m.cpn_no and m.guest_no = g.guest_no and g.guest_no = #{guest_no}
+ </select>
+</mapper>

@@ -1,0 +1,585 @@
+@charset "UTF-8";
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+#all_menu{
+	position: fixed;
+    top: 0;
+    left: -365px	;
+    bottom: 0;
+    display: block;
+    width: 362px;
+    background: #f6f6f6;
+    z-index: 41;
+}
+
+#all_menu .scroll_wrap {
+	display: block;
+    position: relative;
+    height: 100%;
+}
+
+#all_menu .scroll_inner {
+    padding: 140px 0 60px;
+    position: relative;
+    height: 100%;
+}
+
+#all_menu .profile {
+    width: 360px;
+    height: 140px;
+    vertical-align: middle;
+    background-size: cover;
+    color: #000;
+    font-size: 10px;
+    margin: 0;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: table;
+    background-position: 50%;
+    background-color: rgba(255,208,20,.85);
+    
+}
+
+#all_menu .profile dl {
+    display: table-cell;
+    padding: 0 38px 0 145px;
+}
+
+.require_login dt {
+    padding: 0 38px 0 145px;
+    position: relative;
+    width: 180px;
+    padding-top: 41px;
+    font-size: 24px;
+    line-height: 26px;
+    z-index: 3;
+}
+
+#all_menu .profile dt {
+    position: relative;
+    width: 180px;
+    padding-top: 41px;
+    font-size: 24px;
+    line-height: 26px;
+    z-index: 3;
+}
+
+#all_menu .profile dt.logged_in .profile_link {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+    color: #806c1b;
+}
+
+#all_menu .profile dt.logged_in {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+    color: #806c1b;
+    margin-top: 8px;
+    
+}
+
+#all_menu .profile dt.logged_in strong {
+    line-height: 1.2;
+    white-space: normal;
+    font-weight: 600;
+    font-size: 18px;
+    cursor: pointer;
+    color: #000;
+    margin-bottom: 8px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+#all_menu .profile dt.require_login {
+    font-weight: 400;
+}
+
+#all_menu .profile dt.require_login strong {
+    line-height: 1.5;
+    white-space: normal;
+    font-size: 18px;
+}
+
+#all_menu .profile dd.profile_img {
+    overflow: hidden;
+    position: absolute;
+    top: 40%;
+	left: -10px;
+    width: 90px;
+    height: 90px;
+    margin-top: -28px;
+    background-color: white;
+    border-radius: 50px;
+}
+
+.login_img {
+    width: 90px;
+    height: 90px;
+}
+
+#all_menu .profile dd {
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    -webkit-box-pack: center;
+    z-index: 3;
+    font-size: 13px;
+}
+
+
+.profile_img_logo {
+    width: 78px;
+    height: 60px;
+    padding-left: 6px;
+    padding-top: 12px;
+}
+
+#all_menu .profile .profile_dim {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 360px;
+    height: 100%;
+    display: block;
+    background-color: rgba(255,208,20,.85);
+    z-index: 2;
+}
+
+#all_menu a{
+	text-decoration: none;
+	color: black;
+}
+
+.login_text{
+	font-size: 22px;
+	font-weight: 700;
+}
+
+#all_menu .scroll {
+    padding: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    width: 100%;
+}
+
+#all_menu .menu_top {
+    background: #fff;
+    border-bottom: 1px solid #ebebeb;
+}
+
+#all_menu .menu_top ul {
+    height: 108px;
+    padding-top: 20px;
+    padding: 24px 0 0 0;
+    margin: 0;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+.login_menu li{
+	float: left;
+    width: 25%;
+    height: 68px;
+    text-align: center;
+}
+
+.host_menu li{
+	float: left;
+    width: 33.3%;
+    height: 68px;
+    text-align: center;
+}
+
+
+#all_menu .menu_top ul li a {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    font-size: 10px;
+    color: #656565;
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+}
+
+#all_menu .menu_top ul li a .ico_event{
+    position: absolute;
+    left: 50%;
+    margin-left: -15px;
+}
+
+#all_menu .menu_top .ico_event {
+    width: 30px;
+    height: 30px;
+    background-size: 100% 100%;
+}
+
+#all_menu .menu_top ul li .tit {
+    padding-top: 40px;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+    display: inline-block;
+}
+
+em, span {
+    vertical-align: top;
+    font-style: normal;
+}
+
+.credit_wrap {
+    position: relative;
+    display: block;
+    background-color: #704de4;
+    border-top: 1px solid #ebebeb;
+	cursor: pointer;
+}
+
+.credit_wrap .title {
+    font-size: 16px;
+    font-weight: 600;
+    padding: 21px 25px 20px;
+    color: #fff;
+    font-style: normal;
+    display: block;
+    vertical-align: middle;
+}
+
+#gnb {
+    padding-top: 15px;
+    display: block;
+    
+}
+
+#gnb ul{
+	padding: 0;
+	margin: 0;
+}
+
+#gnb .depth_1 {
+	position: relative;
+    display: block;
+    padding: 21px 25px 20px;
+    border-top: 1px solid #ebebeb;
+    background: #fff;
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+}
+
+#gnb .depth_2 li {
+    border-top: 1px solid #ebebeb;
+}
+
+#gnb .depth_2 li a {
+    display: block;
+    padding: 16px 25px;
+    font-size: 14px;
+    color: #656565;
+}
+
+#gnb .service_menu {
+    padding: 24px 0 20px;
+    text-align: center;
+    color: #949494;
+}
+
+#gnb .service_menu .copyright {
+    margin-top: 17px;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+#all_menu .nav_menu_close {
+    position: absolute;
+    top: 15px;
+    display: block;
+    z-index: 3;
+    left: 310px;
+}
+
+#all_menu .nav_menu_close .ico_nav_close {
+    background-size: 684px 663px;
+    background-position: -637px -510px;
+    width: 24px;
+    height: 26px;
+}
+
+#all_menu .menu_top .user_info {
+    padding: 20px 25px 0;
+}
+
+#all_menu .menu_top .user_info .user_level_info {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #ebebeb;
+}
+
+#all_menu .menu_top .user_info .user_level_info .user_level {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100px;
+    height: 127px;
+}
+
+#all_menu .menu_top .user_info .user_level_info .user_level .user_level_icon {
+    width: 100px;
+    height: 100px;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: contain;
+    margin-bottom: 10px;
+    transition: all .5s linear;
+    animation-name: fadeOut, move2;
+    animation-duration: .8s;
+    animation-iteration-count: 1;
+    cursor: pointer;
+}
+
+.user_level_img{
+	width: 100px;
+    height: 100px;
+}
+
+#all_menu .menu_top .user_info .user_level_info .user_level span {
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 17px;
+    color: #000;
+    text-align: center;
+}
+
+.user_lever_text {
+    position: relative;
+    width: 200px;
+    height: 88px;
+    text-align: right;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 22px;
+}
+
+#all_menu .menu_top .user_info .user_level_info .user_lever_text a.btn_level_benefit {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 6px 8px 5px;
+    height: 28px;
+    border: 1px solid rgba(112,77,228,.4);
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 17px;
+    color: #704de4;
+}
+
+.user_lever_count {
+    margin-top: 60px;
+    word-break: keep-all;
+}
+
+.user_lever_count span {
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 22px;
+    color: #704de4;
+}
+
+.user_memory {
+    height: 116px;
+}
+
+.user_memory_title {
+    position: relative;
+    width: 250px;
+    height: 17px;
+    margin: 30px auto;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+}
+
+.user_memory_title h6 {
+    position: absolute;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 17px;
+    color: #000;
+    z-index: 5;
+    margin: 0;
+}
+
+.user_memory_title_bg {
+    position: absolute;
+    top: 8px;
+    width: 100%;
+    height: 8px;
+    background: #ffeca1;
+    margin: auto;
+}
+
+.user_memory_info {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user_memory_info dl {
+    width: 33.3%;
+    display: inline-block;
+    text-align: center;
+}
+
+.user_memory_info dl dt {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 13px;
+    color: #999;
+    margin-bottom: 10px;
+}
+
+.user_memory_info dl dd {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 18px;
+    margin: 0;
+}
+
+.user_memory_info dl dd span {
+    color: #704de4;
+    margin-right: 5px;
+}
+
+.user_coupon_info, .user_coupon_count {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user_coupon_info {
+    border: 1px solid #ebebeb;
+    border-radius: 6px;
+}
+
+.user_coupon_icon, .user_badge_icon {
+    background-size: contain;
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+}
+
+.user_coupon_icon img, .user_badge_icon img{
+	width: 40px;
+    height: 40px;
+}
+
+.user_coupon_text, user_badge_text {
+    margin-right: 29px;
+}
+
+.user_coupon_count div dl>dt {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: #666;
+    margin-bottom: 7px;
+}
+
+.user_coupon_count div dl>dd {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+    color: #704de4;
+    margin: 0;
+}
+
+.user_coupon_count div dl>dd span {
+    margin-right: 4px;
+}
+
+.service_menu {
+    padding: 24px 0 20px;
+    text-align: center;
+    color: #949494;
+    background: #f6f6f6;
+}
+
+.service_menu a {
+    position: relative;
+    color: #949494;	
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: underline;
+}
+
+.service_menu .copyright {
+    margin-top: 17px;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.btn_fixed_guest {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    padding: 15px 0 13px;
+    background: #6d3afb;
+    color: #ffd014;
+    font-size: 18px;
+    text-align: center;
+}
+
+.scroll_out {
+    right: 362px;
+    height: 170px;
+    position: absolute;
+    top: 0;
+    left: 88%;
+    width: 100%;
+    overflow-y: auto;
+}
+
+
+#gnb {
+    padding-top: 15px;
+}
+
+#gnb .depth_1 {
+    position: relative;
+    display: block;
+}
+
+.tag-new{
+	padding: 3px 6px;
+	margin-left: 5px;
+    font-size: 11px;
+    font-weight: 400;
+    background: #ec4d3d;
+    color: #fff;
+	vertical-align: middle;
+}

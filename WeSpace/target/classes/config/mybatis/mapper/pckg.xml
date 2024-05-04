@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pckg">
+
+<!-- 패키지단위가격설정 -->
+
+	<select id="pckg_prcst_List" resultType="pckg_prcst">
+		select * from PCKG_PRCST order by desc
+	</select>
+	
+	<select id="pckg_prcst_One" resultType="pckg_prcst" parameterType="int">
+		select * from PCKG_PRCST where PCKG_PRCST_no = #{PCKG_PRCST_no}
+	</select>
+
+
+	<insert id="pckg_prcst_insert" parameterType="pckg_prcst">
+		insert into PCKG_PRCST (pckg_prcst_no,de_sp_add_no)values(PCKG_PRCST_seq.nextVal,#{de_sp_add_no})
+	</insert>
+
+	<update id="pckg_prcst_update" parameterType="pckg_prcst">
+		update PCKG_PRCST 
+		set	PCKG_PRCST_person = #{pckg_prcst_person},PCKG_PRCST_fee = #{pckg_prcst_fee}
+		where PCKG_PRCST_no = #{pckg_prcst_no}
+	</update>
+	
+	<delete id="pckg_prcst_delete" parameterType="pckg_prcst">
+		select * from PCKG_PRCST where PCKG_PRCST_no = #{PCKG_PRCST_no}
+	</delete>
+
+<!-- 시퀀스 가져오기 -->
+    <select id="pckg_prcst_currseq" resultType="int">
+         select pckg_prcst_seq.currval from dual
+    </select>
+    
+    <select id="add_pckg_t_currseq" resultType="int">
+    	select add_pckg_t_seq.currval from dual
+    </select>
+
+<!-- 패키지시간추가 -->
+
+	<select id="add_pckg_t_List" resultType="add_pckg_t">
+		select * from ADD_PCKG_T order by desc
+	</select>
+	
+	<select id="add_pckg_t_One" resultType="add_pckg_t" parameterType="int">
+		select * from ADD_PCKG_T where ADD_PCKG_T_no = #{ADD_PCKG_T_no}
+	</select>
+
+
+	<insert id="add_pckg_t_insert" parameterType="add_pckg_t">
+		insert into ADD_PCKG_T values(ADD_PCKG_T_seq.nextVal,#{tm_no_start},#{tm_no_end},#{pckg_prcst_no},#{add_pckg_t_name})
+	</insert>
+
+	<update id="add_pckg_t_update" parameterType="add_pckg_t">
+		update ADD_PCKG_T 
+		set	ADD_PCKG_T_name = #{add_pckg_t_name}
+		where ADD_PCKG_T_no = #{ADD_PCKG_T_no}
+	</update>
+	
+	<delete id="add_pckg_t_delete" parameterType="add_pckg_t">
+		select * from ADD_PCKG_T where ADD_PCKG_T_no = #{ADD_PCKG_T_no}
+	</delete>
+
+
+
+<!-- 패키지예외기간금액 -->
+
+	<select id="pckg_exprd_List" resultType="pckg_exprd">
+		select * from PCKG_EXPRD order by desc
+	</select>
+	
+	<select id="pckg_exprd_One" resultType="pckg_exprd" parameterType="int">
+		select * from PCKG_EXPRD where PCKG_EXPRD_no = #{PCKG_EXPRD_no}
+	</select>
+
+
+	<insert id="pckg_exprd_insert" parameterType="pckg_exprd">
+		insert into PCKG_EXPRD values(PCKG_EXPRD_seq.nextVal,#{pckg_prcst_no},#{pckg_exprd_sdate},#{pckg_exprd_edate},#{pckg_exprd_price})
+	</insert>
+
+	<update id="pckg_exprd_update" parameterType="pckg_exprd">
+		update PCKG_EXPRD 
+		set	PCKG_EXPRD_sdate = #{pckg_exprd_sdate},PCKG_EXPRD_edate = #{pckg_exprd_edate}, PCKG_EXPRD_price = #{pckg_exprd_price}
+		where PCKG_EXPRD_no = #{PCKG_EXPRD_no}
+	</update>
+	
+	<delete id="pckg_exprd_delete" parameterType="pckg_exprd">
+		select * from PCKG_EXPRD where PCKG_EXPRD_no = #{PCKG_EXPRD_no}
+	</delete>
+</mapper>

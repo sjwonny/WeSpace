@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="profile">
+
+
+<select id="selectprofileList" resultType="profile">
+		SELECT * FROM profile
+</select>
+
+<select id="myProfile" resultType="profile">
+		SELECT * FROM profile p, guest g where g.profile_no = p.profile_no and g.guest_no = #{guest_no}
+</select>
+
+
+   
+</mapper>

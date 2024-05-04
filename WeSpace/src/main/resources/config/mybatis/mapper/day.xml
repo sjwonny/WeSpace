@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="day">
+
+<!-- 요일시간가격 -->
+
+	<select id="day_tm_pr_List" resultType="day_tm_pr">
+		select * from DAY_TM_PR order by desc
+	</select>
+	
+	<select id="day_tm_pr_One" resultType="day_tm_pr" parameterType="int">
+		select * from DAY_TM_PR where DAY_TM_PR_no = #{DAY_TM_PR_no}
+	</select>
+
+	<insert id="day_tm_pr_insert" parameterType="day_tm_pr">
+		insert into day_tm_pr values(day_tm_pr_seq.nextVal,#{day_week_no},#{tm_no_start},#{tm_no_end},#{set_px_hr_no},#{day_tm_pr_price})
+	</insert>
+
+	<update id="day_tm_pr_update" parameterType="day_tm_pr">
+		update DAY_TM_PR 
+		set	DAY_TM_PR_price = #{DAY_TM_PR_price}
+		where DAY_TM_PR_no = #{DAY_TM_PR_no}
+	</update>
+	
+	<delete id="day_tm_pr_delete" parameterType="day_tm_pr">
+		select * from DAY_TM_PR where DAY_TM_PR_no = #{DAY_TM_PR_no}
+	</delete>
+
+<!-- 요일 가격 -->
+	
+	<select id="day_price_List" resultType="day_price">
+		select * from DAY_PRICE order by desc
+	</select>
+	
+	<select id="day_price_One" resultType="day_price" parameterType="int">
+		select * from DAY_PRICE where DAY_PRICE_no = #{DAY_PRICE_no}
+	</select>
+
+	<insert id="day_price_insert" parameterType="day_price">
+		insert into DAY_PRICE values(DAY_PRICE_seq.nextVal,#{day_week_no},#{add_pckg_t_no},#{day_price_price})
+	</insert>
+
+	<update id="day_price_update" parameterType="day_price">
+		update DAY_PRICE 
+		set	DAY_PRICE_price = #{DAY_PRICE_price}
+		where DAY_PRICE_no = #{DAY_PRICE_no}
+	</update>
+	
+	<delete id="day_price_delete" parameterType="day_price">
+		select * from DAY_PRICE where DAY_PRICE_no = #{DAY_PRICE_no}
+	</delete>
+	
+
+</mapper>

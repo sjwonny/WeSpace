@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="space_type">
+	
+	<select id="selectAll" resultType="space_type">
+		select * from space_type
+	</select>
+	
+	<select id="selectOne" resultType="space_type" parameterType="int">
+		select * from space_type where space_type_no=#{space_type_no}
+	</select>
+
+	<insert id="insert" parameterType="space_type">
+		insert into space_type values(
+			space_type_seq.nextval,
+			#{space_type_name},
+			#{space_type_cat}
+			)
+	</insert> 
+	
+
+<!-- 	
+	<insert id="insert" parameterType="space_type">
+		insert into space_type values(
+			space_type_seq.nextval,
+			#{space_type_name})
+	</insert> -->
+	
+	<update id="update" parameterType="space_type">
+		update space_type set
+			space_type_name=#{space_type_name}, 
+			space_type_cat=#{space_type_cat} 
+			where space_type_no=#{space_type_no}
+	</update>
+	
+	<!-- <update id="update" parameterType="space_type">
+		update space_type set
+			space_type_name=#{space_type_name}
+			where space_type_no=#{space_type_no}
+	</update> -->
+	
+	<delete id="delete" parameterType="int">
+		delete space_type where space_type_no=#{space_type_no}
+	</delete>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

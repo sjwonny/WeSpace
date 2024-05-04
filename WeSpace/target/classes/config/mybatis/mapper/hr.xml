@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hr">
+
+<!-- 시간단위가격설정 -->
+	<select id="set_px_hr_List" resultType="set_px_hr">
+		select * from SET_PX_HR order by desc
+	</select>
+	
+	<select id="set_px_hr_One" resultType="set_px_hr" parameterType="int">
+		select * from SET_PX_HR where SET_PX_HR_no = #{set_px_hr_no}
+	</select>
+
+
+	<insert id="set_px_hr_insert" parameterType="set_px_hr">
+		insert into SET_PX_HR(set_px_hr_no,de_sp_add_no,set_px_hr_select) values(SET_PX_HR_seq.nextVal,#{de_sp_add_no},#{set_px_hr_select})
+	</insert>
+	
+	<!-- 시퀀스 가져오기 -->
+	<select id="set_px_hr_currseq" resultType="int">
+	 select set_px_hr_seq.currval from dual
+	</select> 
+
+	<update id="set_px_hr_update" parameterType="set_px_hr">
+		update SET_PX_HR 
+		set	SET_PX_HR_select = #{set_px_hr_select},SET_PX_HR_person = #{set_px_hr_person},SET_PX_HR_fee = #{set_px_hr_fee}
+		where SET_PX_HR_no = #{set_px_hr_no}
+	</update>
+	
+	<delete id="set_px_hr_delete" parameterType="set_px_hr">
+		select * from SET_PX_HR where SET_PX_HR_no = #{SET_PX_HR_no}
+	</delete>
+
+
+<!-- 시간단위설정금액 -->
+
+	<select id="set_px_hrpr_List" resultType="set_px_hrpr">
+		select * from SET_PX_HRPR 
+	</select>
+	
+	<select id="set_px_hrpr_One" resultType="set_px_hrpr" parameterType="int">
+		select * from SET_PX_HRPR where SET_PX_HRPR_no = #{SET_PX_HRPR_no}
+	</select>
+
+<!-- 
+	<insert id="set_px_hrpr_insert" parameterType="set_px_hrpr">
+		insert into SET_PX_HR values(SET_PX_HR_seq.nextVal,#{set_px_hr_select},#{set_px_hr_person},#{set_px_hr_fee})
+	</insert>
+
+	<update id="set_px_hrpr_update" parameterType="set_px_hrpr">
+		update SET_PX_HR 
+		set	SET_PX_HR_select = #{set_px_hr_select},SET_PX_HR_person = #{set_px_hr_person},SET_PX_HR_fee = #{set_px_hr_fee}
+		where SET_PX_HR_no = #{SET_PX_HR_no}
+	</update>
+ -->	
+ 
+	<delete id="set_px_hrpr_delete" parameterType="set_px_hrpr">
+		select * from SET_PX_HRPR where SET_PX_HRPR_no = #{SET_PX_HRPR_no}
+	</delete>
+
+
+
+<!-- 시간예외기간금액 -->
+
+	<select id="tmxpr_amnt_List" resultType="tmxpr_amnt">
+		select * from TMXPR_AMNT order by desc
+	</select>
+	
+	<select id="tmxpr_amnt_One" resultType="tmxpr_amnt" parameterType="int">
+		select * from TMXPR_AMNT where TMXPR_AMNT_no = #{TMXPR_AMNT_no}
+	</select>
+
+	<insert id="tmxpr_amnt_insert" parameterType="tmxpr_amnt">
+		insert into TMXPR_AMNT values(TMXPR_AMNT_seq.nextVal,#{SET_PX_HR_no},#{TMXPR_AMNT_name},#{TMXPR_AMNT_sdate},#{TMXPR_AMNT_edate},#{TMXPR_AMNT_price})
+	</insert>
+
+	<update id="tmxpr_amnt_update" parameterType="tmxpr_amnt">
+		update TMXPR_AMNT 
+		set	TMXPR_AMNT_name = #{TMXPR_AMNT_name},TMXPR_AMNT_sdate = #{TMXPR_AMNT_sdate},TMXPR_AMNT_edate = #{TMXPR_AMNT_edate},TMXPR_AMNT_price = #{TMXPR_AMNT_price}
+		where TMXPR_AMNT_no = #{TMXPR_AMNT_no}
+	</update>
+	
+	<delete id="tmxpr_amnt_delete" parameterType="tmxpr_amnt">
+		select * from TMXPR_AMNT where TMXPR_AMNT_no = #{TMXPR_AMNT_no}
+	</delete>
+	
+
+
+	
+</mapper>

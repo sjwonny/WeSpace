@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="space_theme">
+	
+	<select id="selectAll" resultType="space_theme">
+		select * from space_theme
+	</select>
+	
+	
+	<select id="selectOne" resultType="space_theme" parameterType="int">
+		select * from space_theme where space_theme_no=#{space_theme_no}
+	</select>
+
+	<insert id="insert" parameterType="space_theme">
+		insert into space_theme values(
+			space_theme_seq.nextval,
+			#{space_theme_name},
+			#{space_type_no})
+	</insert>
+	
+	<update id="update" parameterType="space_theme">
+		update space_theme set
+			space_theme_name=#{space_theme_name},
+			space_type_no=#{space_type_no}
+			where space_theme_no=#{space_theme_no}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete space_theme where space_theme_no=#{space_theme_no}
+	</delete>
+	
+	
+	<select id="themeList" resultType="map">
+	select space_theme_no, space_type_name, space_theme_name 
+	from space_type tp, space_theme th 
+	where tp.space_type_no = th.space_type_no 
+	order by th.space_theme_no
+	</select>
+	
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

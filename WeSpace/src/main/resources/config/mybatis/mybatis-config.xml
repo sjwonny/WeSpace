@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "HTTP://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<settings>
+		<setting name="cacheEnabled" value="false" />
+		<setting name="useGeneratedKeys" value="true" />
+		<setting name="defaultExecutorType" value="REUSE" />
+		
+	</settings>
+	
+	<typeAliases>
+		<typeAlias type="all.vo.HostVO" alias="host"/>
+		<typeAlias type="all.vo.GuestVO" alias="guest"/>
+		<typeAlias type="cat1.profile.vo.InterestVO" alias="interest"/>
+		<typeAlias type="cat1.profile.vo.IntrareaVO" alias="intrarea"/>
+		<typeAlias type="cat1.profile.vo.ProfileVO" alias="profile"/>
+		<typeAlias type="cat1.profile.vo.DetaareaVO" alias="detaarea"/>
+        <typeAlias type="cat1.profile.vo.LfstyVO" alias="lfsty"/>
+        <typeAlias type="cat1.coupon.vo.CpnVO" alias="cpn"/>
+        <typeAlias type="cat1.coupon.vo.MyCpnVO" alias="mycpn"/>
+        <typeAlias type="cat1.badge.vo.BadgeVO" alias="badge"/>
+        <typeAlias type="cat1.badge.vo.MybadgeVO" alias="mybadge"/>
+        
+        <typeAlias type="cat2.rsrvt.vo.RsrvtVO" alias="rsrvt"/>
+		
+		<typeAlias type="all.vo.Space_usesVO" alias="space_uses"/>
+		<typeAlias type="all.vo.Space_typeVO" alias="space_type"/>
+		<typeAlias type="all.vo.Space_themeVO" alias="space_theme"/>
+		
+		<typeAlias type="all.vo.TmVO" alias="tm"/>
+		<typeAlias type="all.vo.BankVO" alias="bank"/>
+		<typeAlias type="all.vo.Day_WeekVO" alias="day_week"/>
+		<typeAlias type="all.vo.FacilityVO" alias="facility"/>
+		<typeAlias type="all.vo.FACILITY_SelVO" alias="facility_sel"/>
+		
+		
+		
+		
+		<typeAlias type="cat3.space_reg.vo.Basic_InfoVO" alias="basic_info"/>
+		<typeAlias type="cat3.space_reg.vo.Contact_InfoVO" alias="contact_info"/>
+		<typeAlias type="cat3.space_reg.vo.Space_InfoVO" alias="space_info"/>
+		<typeAlias type="cat3.space_reg.vo.Usage_InfoVO" alias="usage_info"/>
+		
+		<typeAlias type="cat3.connection.vo.Dsg_ClosedVO" alias="dsg_closed"/>
+		<typeAlias type="cat3.connection.vo.Fclty_GuideVO" alias="fclty_guide"/>
+		<typeAlias type="cat3.connection.vo.Reg_ClosedVO" alias="reg_closed"/>
+		<typeAlias type="cat3.connection.vo.Rsrvt_NotesVO" alias="rsrvt_notes"/>
+		<typeAlias type="cat3.connection.vo.Select_UseVO" alias="select_use"/>
+		<typeAlias type="cat3.connection.vo.Space_ImgVO" alias="space_img"/>
+		<typeAlias type="cat3.connection.vo.Space_TagVO" alias="space_tag"/>
+		
+		<typeAlias type="cat3.bsns_info.vo.Account_InfoVO" alias="account_info"/>
+		<typeAlias type="cat3.bsns_info.vo.Bsns_InfoVO" alias="bsns_info"/>
+		<typeAlias type="cat3.bsns_info.vo.Refund_StandardVO" alias="refund_standard"/>
+		<typeAlias type="cat3.bsns_info.vo.Bsns_TypeVO" alias="bsns_type"/>
+		
+		
+		
+		<!-- detail -->
+		<typeAlias type="cat4.detail.vo.DE_SP_InfoVO" alias="de_sp_info"/>
+		<typeAlias type="cat4.detail.vo.DE_SP_AddVO" alias="de_sp_add"/>
+		<typeAlias type="cat4.detail.vo.DE_SP_ImgVO" alias="de_sp_img"/>
+		<typeAlias type="cat4.detail.vo.DE_SP_TyseVO" alias="de_sp_tyse"/>
+		<typeAlias type="cat4.detail.vo.DE_SP_ApVO" alias="de_sp_ap"/>
+	<!-- hr -->	
+		<typeAlias type="cat4.hr.vo.SET_PX_HrVO" alias="set_px_hr"/>
+		<typeAlias type="cat4.hr.vo.SET_PX_HrprVO" alias="set_px_hrpr"/>
+		<typeAlias type="cat4.hr.vo.TMXPR_AmntVO" alias="tmxpr_amnt"/>	
+	<!-- day -->
+		<typeAlias type="cat4.day.vo.DAY_TM_PrVO" alias="day_tm_pr"/>
+		<typeAlias type="cat4.day.vo.DAY_PriceVO" alias="day_price"/>
+	<!-- pckg -->	
+		<typeAlias type="cat4.pckg.vo.PCKG_PrcstVO" alias="pckg_prcst"/>
+		<typeAlias type="cat4.pckg.vo.PCKG_ExprdVO" alias="pckg_exprd"/>
+		<typeAlias type="cat4.pckg.vo.ADD_PCKG_tVO" alias="add_pckg_t"/>
+	</typeAliases>
+	 
+	<mappers>
+		<mapper resource="config/mybatis/mapper/host.xml"/>
+		<mapper resource="config/mybatis/mapper/guest.xml"/>
+		<mapper resource="config/mybatis/mapper/detaarea.xml"/>
+		<mapper resource="config/mybatis/mapper/profile.xml"/>
+		<mapper resource="config/mybatis/mapper/lfsty.xml"/>
+		<mapper resource="config/mybatis/mapper/interest.xml"/>
+		<mapper resource="config/mybatis/mapper/intrarea.xml"/>
+		<mapper resource="config/mybatis/mapper/coupon.xml"/>
+		<mapper resource="config/mybatis/mapper/badge.xml"/>
+		<mapper resource="config/mybatis/mapper/mybadge.xml"/>
+		
+		<mapper resource="config/mybatis/mapper/space_uses.xml" />
+		<mapper resource="config/mybatis/mapper/space_type.xml" />
+		<mapper resource="config/mybatis/mapper/space_theme.xml" />
+		
+		<mapper resource="config/mybatis/mapper/space_reg/space_info.xml"/>
+		<mapper resource="config/mybatis/mapper/space_reg/bsns_info.xml"/>
+		<mapper resource="config/mybatis/mapper/all/etc.xml"/>
+		<mapper resource="config/mybatis/mapper/all/facility.xml"/>
+		
+		
+		
+				<mapper resource="config/mybatis/mapper/de_sp.xml" />
+		<mapper resource="config/mybatis/mapper/hr.xml" />
+		<mapper resource="config/mybatis/mapper/day.xml" />
+		<mapper resource="config/mybatis/mapper/pckg.xml" />
+		<mapper resource="config/mybatis/mapper/all/tm.xml" />
+		<mapper resource="config/mybatis/mapper/rsrvt.xml" />
+		
+	</mappers>
+</configuration>

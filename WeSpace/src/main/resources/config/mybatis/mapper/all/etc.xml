@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="etc">
+		
+	<select id="bankList" resultType="bank">  <!-- 은행리스트 출력 -->
+		select * from bank order by bank_no asc
+	</select>
+	
+	<select id="weekList" resultType="day_week" parameterType="int">  <!-- 휴무일이 아닌 요일리스트 출력 -->
+		SELECT dw.*
+		FROM day_week dw
+		LEFT JOIN reg_closed rc ON dw.day_week_no = rc.day_week_no AND rc.usage_info_no = #{usage_info_no}
+		WHERE rc.day_week_no IS NULL  order by dw.day_week_no 
+	</select>
+	
+	
+	
+	<select id="tmList" resultType="tm">
+		select * from tm order by tm_no asc
+	</select>
+	
+	<select id="businessmanList" resultType="bsns_type">
+	    select * from bsns_type order by bsns_type_no
+	</select>
+	
+	
+	<select id="dayWeekList" resultType="day_week">
+		select * from day_week day_week order by day_week_no
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

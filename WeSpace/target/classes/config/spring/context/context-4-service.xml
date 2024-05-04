@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+
+	<bean id="loginService" class="cat1.member.host.login.LoginService">
+		<constructor-arg ref="hostDao"/>
+	</bean> 
+
+
+	<bean id="gloginService" class="cat1.member.guest.login.LoginService">
+		<constructor-arg ref="guestDao"/>
+	</bean>
+	
+	
+	<bean id="profileService" class="cat1.profile.service.ProfileService">
+		<constructor-arg ref="detaareaDao"/>
+		<constructor-arg ref="profileDao"/>
+		<constructor-arg ref="lfstyDao"/>
+		<constructor-arg ref="guestDao"/>
+		<constructor-arg ref="interestDao"/>
+		<constructor-arg ref="intrareaDao"/>
+		<constructor-arg ref="badgeDao"/>
+		<constructor-arg ref="mybadgeDao"/>
+	</bean>
+	
+	<bean id="cpnService" class="cat1.coupon.service.CpnService">
+		<constructor-arg ref="cpnDao"/>
+		<constructor-arg ref="myCpnDao"/>
+	</bean>
+	 
+	
+	 	
+	<bean id="spaceService" class="cat2.service.SpaceService">
+		<constructor-arg ref="space_usesDao"></constructor-arg>
+		<constructor-arg ref="space_typeDao"></constructor-arg>
+		<constructor-arg ref="space_themeDao"></constructor-arg>
+		<constructor-arg ref="space_infoDao"></constructor-arg>
+		<constructor-arg ref="de_sp_infoDao"></constructor-arg>
+		<constructor-arg ref="fclty_guideDao"></constructor-arg>
+		<constructor-arg ref="rsrvt_notesDao"></constructor-arg>
+		<constructor-arg ref="space_tagDao"></constructor-arg>
+		<constructor-arg ref="facilityDao"></constructor-arg>
+		<constructor-arg ref="de_sp_tyseDao"></constructor-arg>
+		<constructor-arg ref="reg_closedDao"></constructor-arg>
+		<constructor-arg ref="day_tm_prDao"></constructor-arg>
+	</bean>
+	
+	
+	<bean id="etcService" class="all.service.EtcService">
+		<constructor-arg ref="bankDao"/>
+		<constructor-arg ref="day_weekDao"/>
+		<constructor-arg ref="tmDao"/>
+	</bean> 
+	
+	<bean id="space_regService" class="cat3.space_reg.service.Space_RegService">
+		<constructor-arg ref="space_infoDao"/>
+		<constructor-arg ref="contact_infoDao"/>
+		<constructor-arg ref="usage_infoDao"/>
+		<constructor-arg ref="basic_infoDao"/>
+	</bean> 
+	
+	
+	<bean id="connectionService" class="cat3.connection.service.ConnectionService">
+		<constructor-arg ref="dsg_closedDao"/>
+		<constructor-arg ref="fclty_guideDao"/>
+		<constructor-arg ref="reg_closedDao"/>
+		<constructor-arg ref="rsrvt_notesDao"/>
+		<constructor-arg ref="select_useDao"/>
+		<constructor-arg ref="space_imgDao"/>
+		<constructor-arg ref="space_tagDao"/>
+	</bean> 
+	
+	<bean id="Bsns_InfoService" class="cat3.bsns_info.service.Bsns_InfoService">
+		<constructor-arg ref="bsns_typeDao"/>
+		<constructor-arg ref="refund_standardDao"/>
+		<constructor-arg ref="account_infoDao"/>
+		<constructor-arg ref="bsns_infoDao"/>
+	</bean> 
+	
+	
+	<bean id="DE_SP_Service"
+		class="cat4.detail.service.DE_SP_Service">
+		<constructor-arg ref="de_sp_infoDao" />
+		<constructor-arg ref="facilityDao" />
+		<constructor-arg ref="facility_selDao" />
+		<constructor-arg ref="de_sp_tyseDao" />
+		<constructor-arg ref="de_sp_addDao" />
+		<constructor-arg ref="set_px_hrDao" />
+		<constructor-arg ref="day_tm_prDao" />
+		<constructor-arg ref="pckg_prcstDao" />
+		<constructor-arg ref="add_pckg_tDao" />
+		<constructor-arg ref="day_priceDao" />
+	</bean>
+	
+	<bean id="RsrvtService" class = "cat2.rsrvt.service.RsrvtService">
+		<constructor-arg ref="RsrvtDAO"/>
+	</bean>
+	
+</beans>

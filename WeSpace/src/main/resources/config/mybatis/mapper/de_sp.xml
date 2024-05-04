@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="de_sp">
+
+<!-- 세부공간정보 -->
+	<select id="de_sp_info_List" resultType="de_sp_info">
+		select * from DE_SP_INFO order by desc
+	</select>
+	
+	<select id="de_sp_info_One" resultType="de_sp_info" parameterType="int">
+		select * from DE_SP_INFO where DE_SP_INFO_no = #{de_sp_info_no}
+	</select>
+
+	<insert id="de_sp_info_insert" parameterType="de_sp_info">
+		insert into de_sp_info values(de_sp_info_seq.nextval,#{de_sp_info_name},#{de_sp_info_exp},#{de_sp_info_area},#{de_sp_info_img},#{de_sp_info_mintime},#{de_sp_info_minPerson},#{de_sp_info_maxPerson})
+	</insert>
+
+	<update id="de_sp_info_update" parameterType="de_sp_info">
+		update DE_SP_INFO 
+		set	DE_SP_INFO_name = #{DE_SP_INFO_name},DE_SP_INFO_exp = #{de_sp_info_exp},DE_SP_INFO_area = #{de_sp_info_area},DE_SP_INFO_img = #{de_sp_info_img},DE_SP_INFO_mintime = #{de_sp_info_mintime},DE_SP_INFO_minPerson = #{de_sp_info_minPerson},DE_SP_INFO_maxPerson = #{de_sp_info_maxPerson}
+		where DE_SP_INFO_no = #{de_sp_info_no}
+	</update>
+	
+	<delete id="de_sp_info_delete" parameterType="de_sp_info">
+		select * from DE_SP_INFO where DE_SP_INFO_no = #{de_sp_info_no}
+	</delete>
+
+<!-- 공간유형  -->
+
+	<select id="select_use" resultType="map" parameterType="int">	
+		select space_uses_name from select_use su, space_uses us where su.space_uses_no = us.space_uses_no and su.space_info_no = #{no}
+	</select>
+
+
+
+
+<!-- 세부공간추가 -->
+
+	<select id="de_sp_add_List" resultType="de_sp_add">
+		select * from DE_SP_ADD
+	</select>
+	
+	<select id="de_sp_add_One" resultType="de_sp_add" parameterType="int">
+		select * from DE_SP_ADD where DE_SP_ADD_no = #{de_sp_add_no}
+	</select>
+
+
+	
+	<delete id="de_sp_add_delete" parameterType="de_sp_add">
+		select * from DE_SP_ADD where DE_SP_add_no = #{de_sp_add_no}
+	</delete> 
+	
+	<insert id="de_sp_add_insert" parameterType="de_sp_add">
+	    insert into de_sp_add values(de_sp_add_seq.nextval,#{de_sp_info_no},#{basic_info_no},0)
+	</insert>
+
+
+<!-- 세부공간이미지 -->
+
+	
+	<select id="de_sp_img_List" resultType="de_sp_img">
+		select * from DE_SP_IMG
+	</select>
+	
+	<select id="de_sp_img_One" resultType="de_sp_img" parameterType="int">
+		select * from DE_SP_IMG where DE_SP_IMG_no = #{de_sp_img_no}
+	</select>
+
+
+	<insert id="de_sp_img_insert" parameterType="de_sp_img">
+		insert into DE_SP_IMG values(DE_SP_IMG_seq.nextVal,#{de_sp_info_no},#{de_sp_img_addr})
+	</insert>
+
+	<update id="de_sp_img_update" parameterType="de_sp_img">
+		update DE_SP_IMG 
+		set	DE_SP_IMG_addr = #{de_sp_img_addr}
+		where DE_SP_IMG_no = #{de_sp_img_no}
+	</update>
+	
+	<delete id="de_sp_img_delete" parameterType="de_sp_img">
+		select * from DE_SP_IMG where DE_SP_IMG_no = #{de_sp_img_no}
+	</delete>
+
+
+<!-- 세부공간유형선택 -->
+
+	<select id="de_sp_tyse_List" resultType="de_sp_tyse">
+		select * from DE_SP_TYSE
+	</select>
+	
+	<select id="de_sp_tyse_One" resultType="de_sp_tyse" parameterType="int">
+		select * from DE_SP_TYSE where DE_SP_TYSE_no = #{de_sp_tyse_no}
+	</select>
+	<delete id="de_sp_tyse_delete" parameterType="de_sp_tyse">
+		select * from DE_SP_TYSE where DE_SP_TYSE_no = #{de_sp_tyse_no}
+	</delete>
+
+    <select id="selectType" parameterType="int" resultType="space_uses">
+        select * from de_sp_tyse dt,de_sp_info di, space_uses su where dt.space_uses_no = su.space_uses_no
+        and dt.de_sp_info_no = di.de_sp_info_no and dt.de_sp_info_no = #{de_sp_info_no} 
+    </select>
+
+
+<!-- 세부공간적용옵션 -->
+
+
+	<select id="de_sp_ap_List" resultType="de_sp_ap">
+		select * from DE_SP_AP
+	</select>
+	
+	<select id="de_sp_ap_One" resultType="de_sp_ap" parameterType="int">
+		select * from DE_SP_AP where DE_SP_AP_no = #{DE_SP_AP_no}
+	</select>
+
+	<delete id="de_sp_ap_delete" parameterType="de_sp_ap">
+		select * from DE_SP_AP where DE_SP_AP_no = #{DE_SP_AP_no}
+	</delete>
+	
+
+
+<!-- 지원 -->
+<!-- 세부공간유형선택 -->
+    <insert id="de_sp_tyse_insert" parameterType="int">
+	    insert into de_sp_tyse values(de_sp_tyse_seq.nextval,de_sp_info_seq.CURRVAL,#{space_use_no})
+    </insert>
+
+<!-- insert 후에 그 시퀀스 가져오기 -->
+	<select id="de_sp_info_currseq" resultType="int">
+	 select de_sp_info_seq.currval from dual
+	</select>
+	
+<!-- insert 후에 그 시퀀스 가져오기 -->
+	<select id="de_sp_add_currseq" resultType="int">
+	 select de_sp_add_seq.currval from dual
+	</select>
+ 
+    <select id="spaceAndDetail" resultType="map" parameterType="int">
+    select * from basic_info bi, space_info si, de_sp_info dsi, de_sp_add dsa, contact_info ci, usage_info ui,bsns_info bsi, host h,refund_standard rs
+    where dsa.de_sp_add_no =#{de_sp_add_no} 
+    and  dsa.basic_info_no = bi.basic_info_no and dsa.de_sp_info_no = dsi.de_sp_info_no
+	and bi.space_info_no = si.space_info_no and bi.contact_info_no = ci.contact_info_no 
+	and bi.usage_info_no = ui.usage_info_no and bi.bsns_info_no = bsi.bsns_info_no and bi.host_no = h.host_no
+	and bsi.refund_standard_no = rs.refund_standard_no
+    </select>
+    
+    <select id ="selectMinPrice" parameterType="int" resultType="int">
+    select MIN(day_tm_pr_price) from day_tm_pr dtp, set_px_hr sph, de_sp_add dsa where dtp.set_px_hr_no = sph.set_px_hr_no and sph.de_sp_add_no = dsa.de_sp_add_no and sph.de_sp_add_no =#{de_sp_add_no}
+    </select>
+
+    <update id= "de_sp_add_update">
+       update de_sp_add
+		set	status = 1
+    </update>
+</mapper>

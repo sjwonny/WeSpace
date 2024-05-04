@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- 지원 부분 -->
+
+	<bean id="hostDao" class="all.dao.HostDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean> 
+	
+	
+	<bean id="guestDao" class="all.dao.GuestDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean> 
+	
+	<bean id="detaareaDao" class="cat1.profile.dao.DetaareaDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean> 
+	
+	<bean id="profileDao" class="cat1.profile.dao.ProfileDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean> 
+	<bean id="lfstyDao" class="cat1.profile.dao.LfstyDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean> 
+	<bean id="interestDao" class="cat1.profile.dao.InterestDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean> 
+	<bean id="intrareaDao" class="cat1.profile.dao.IntrareaDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean> 
+	<bean id="cpnDao" class="cat1.coupon.dao.CpnDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean> 
+	<bean id="myCpnDao" class="cat1.coupon.dao.MyCpnDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean> 
+	<bean id="badgeDao" class="cat1.badge.dao.BadgeDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean> 
+	<bean id="mybadgeDao" class="cat1.badge.dao.MybadgeDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean> 
+	
+	
+	
+	
+	<bean id="space_typeDao" class="all.dao.Space_typeDAO">
+		<property name="sqlSession" ref="sqlSession"/>
+	</bean>
+	
+	<bean id="space_usesDao" class="all.dao.Space_usesDAO">
+		<property name="sqlSession" ref="sqlSession"/>
+	</bean>
+	
+	<bean id="space_themeDao" class="all.dao.Space_themeDAO">
+		<property name="sqlSession" ref="sqlSession"/>
+	</bean>
+	
+	<bean id="usage_infoDao" class="cat3.space_reg.dao.Usage_InfoDAO">
+		<property name="sqlSession" ref="sqlSession"/>
+	</bean>
+	
+	<!-- all -->
+	<bean id="bankDao" class="all.dao.BankDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean> 
+	<bean id="tmDao" class="all.dao.TmDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean> 
+	<bean id="day_weekDao" class="all.dao.Day_WeekDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+	<bean id="facilityDao" class="all.dao.FacilityDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+	<bean id="facility_selDao" class="all.dao.Facility_selDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+	
+	
+	
+	
+	<!-- Space_Reg -->
+	<bean id="space_infoDao" class="cat3.space_reg.dao.Space_InfoDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+	
+	 <!-- Connection -->
+	 <bean id="dsg_closedDao" class="cat3.connection.dao.Dsg_ClosedDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+	 <bean id="fclty_guideDao" class="cat3.connection.dao.Fclty_GuideDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+	 <bean id="reg_closedDao" class="cat3.connection.dao.Reg_ClosedDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+	 <bean id="rsrvt_notesDao" class="cat3.connection.dao.Rsrvt_NotesDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+	 <bean id="select_useDao" class="cat3.connection.dao.Select_UseDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+	 <bean id="space_imgDao" class="cat3.connection.dao.Space_ImgDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+	 <bean id="space_tagDao" class="cat3.connection.dao.Space_TagDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+	 
+	  <bean id="contact_infoDao" class="cat3.space_reg.dao.Contact_InfoDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+	   <bean id="bsns_typeDao" class="cat3.bsns_info.dao.Bsns_TypeDAO">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+	
+    <bean id="basic_infoDao" class="cat3.space_reg.dao.Basic_InfoDAO">
+		<property name="sqlSession" ref="sqlSession"/>
+	</bean>
+	  
+	 
+	 
+	 <bean id="de_sp_tyseDao" class="cat4.detail.dao.DE_SP_TyseDAO">
+		<constructor-arg ref="sqlSession" />
+	</bean>
+	 <bean id="de_sp_addDao" class="cat4.detail.dao.DE_SP_ADDDAO">
+		<constructor-arg ref="sqlSession" />
+	</bean>
+	
+	 <bean id="de_sp_infoDao" class="cat4.detail.dao.DE_SP_InfoDAO">
+		<constructor-arg ref="sqlSession" />
+	</bean>
+
+	
+	<bean id="RsrvtDAO" class="cat2.rsrvt.dao.RsrvtDAO">
+		<constructor-arg ref="sqlSession" />
+	</bean>
+	<bean id="refund_standardDao" class="cat3.bsns_info.dao.Refund_StandardDAO">
+		<property name="sqlSession" ref="sqlSession"/>
+	</bean>
+	<bean id="account_infoDao" class="cat3.bsns_info.dao.Account_InfoDAO">
+		<property name="sqlSession" ref="sqlSession"/>
+	</bean>
+	<bean id="bsns_infoDao" class="cat3.bsns_info.dao.Bsns_InfoDAO">
+		<property name="sqlSession" ref="sqlSession"/>
+	</bean>
+	 <bean id="set_px_hrDao" class="cat4.hr.dao.SET_PX_HrDAO">
+		<constructor-arg ref="sqlSession" />
+	</bean>
+	 <bean id="day_tm_prDao" class="cat4.day.dao.DAY_TM_PrDAO">
+		<constructor-arg ref="sqlSession" />
+	</bean>
+	 <bean id="pckg_prcstDao" class="cat4.pckg.dao.PCKG_PrcstDAO">
+		<constructor-arg ref="sqlSession" />
+	</bean>
+	 <bean id="add_pckg_tDao" class="cat4.pckg.dao.ADD_PCKG_tDAO">
+		<constructor-arg ref="sqlSession" />
+	</bean>
+	 <bean id="day_priceDao" class="cat4.day.dao.DAY_PriceDAO">
+		<constructor-arg ref="sqlSession" />
+	</bean>
+	 
+	
+</beans>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="guest">
+
+
+	<!-- 로그인 정보가 존재하는지 -->
+	<select id="checkLogin" resultType="int" parameterType="guest">
+		select guest_no
+		from guest where guest_email = #{guest_email} and guest_pw = #{guest_pw} and status = 0
+	</select>
+	
+	
+	
+	<select id="checkId" parameterType="String" resultType="String"><!-- 입력한 닉네임이 데이터로 저장돼있다면 그 닉네임을 가져와라 -->
+		select guest_nickname from guest where guest_nickname=#{guest_nickname} and status = 0
+	</select> 
+	
+	
+	
+	<insert id="insertJoin" parameterType="guest">
+		insert into guest (guest_no, guest_nickname,guest_email,guest_pw,guest_phone,guest_name,guest_gndr,guest_birth,status) values(guest_seq.nextval,#{guest_nickname},#{guest_email},#{guest_pw},#{guest_phone},#{guest_name},#{guest_gndr},#{guest_birth},0)
+	</insert>
+	
+	
+	<select id="findGuest_email" resultType="String" parameterType="guest"><!-- id니까 String , 이름과 전화번호가 같을 때의 회원 아이디 찾기 -->
+		select guest_email from guest where guest_name = #{guest_name} and guest_phone = #{guest_phone} and status = 0
+	</select>
+	
+	<select id="findGuest_pw" resultType="String" parameterType="guest"> <!-- pw니까 String , 아이디, 이름, 전화번호가 같을 때의 회원의 비번 찾기 -->
+		select guest_pw from guest where guest_email=#{guest_email} and guest_name = #{guest_name} and guest_phone = #{guest_phone} and status = 0
+	</select>
+
+	<!--프로필 변경하기-->
+	<update id="updateProfile" parameterType="guest">
+		update GUEST set profile_no = #{profile_no} where guest_no = #{guest_no}
+	</update> 
+	
+	
+ 	<update id="updateImg" parameterType="guest">
+		update  guest set  guest_img = #{guest_img} where guest_no = #{guest_no}
+	</update>
+	
+ 	<select id="selectOne" resultType="guest" parameterType="int">
+ 		select * from guest where guest_no = #{guest_no}
+ 	</select>
+ 	
+ 	<!-- 회원정보 수정 -->
+ 	<update id="updateInfo" parameterType="guest">
+ 		update guest set guest_nickname=#{guest_nickname},guest_phone = #{guest_phone}, guest_name = #{guest_name}, guest_gndr = #{guest_gndr}, guest_birth = #{guest_birth} where guest_no = #{guest_no}
+ 	</update>
+ 	
+ 	
+	<!-- 회원 탈퇴 -->
+	<update id="unregister" parameterType="int"> 
+		update guest set status = 1 where guest_no = #{guest_no}
+	</update> 
+	
+	
+</mapper>
+	

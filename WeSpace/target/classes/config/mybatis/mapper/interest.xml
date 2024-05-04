@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="interest">
+
+<insert id="insertInterest" parameterType="interest">
+	insert into interest values(interest_seq.nextval,#{lfsty_no},#{guest_no})
+</insert>
+
+<delete id="deleteInterest" parameterType="int">
+	delete interest where guest_no = #{guest_no}
+</delete>
+
+
+
+	<!-- 프로필 변경하기 // 뷰페이지는 프로필에서 no값을 받아왔는데 게스트 set해줘서 여기에서 조인 안해도되는것임 -->
+<!-- 	<update id="updateProfile" parameterType="guest">
+		update GUEST set profile_no = #{profile_no}, lfsty_no =#{lfsty_no}, detaarea_no = #{detaarea_no} where guest_no = #{guest_no}
+	</update> -->
+ 
+
+
+</mapper>
+	

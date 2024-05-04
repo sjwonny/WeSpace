@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="space_info">
+
+	<select id="selectSpace" resultType="basic_info">
+		select * from basic_info
+	</select>
+	
+	<select id="select_host_space" resultType="map"> <!-- 호스트별 공간정보 리스트 출력 -->
+		select *  from basic_info b,space_info s where s.space_info_no = b.space_info_no and b.host_no=#{host_no}
+	</select>
+	
+	
+	
+	<select id="select_SpaceList" resultType="map"> <!-- 공간 리스트 출력 -->
+		select * from basic_info where host_no=#{host_no}
+	</select>
+	
+	
+	
+	
+	<select id="select_spaceAll" resultType="map"><!-- 모든 공간 리스트 출력 -->
+	    
+         SELECT 
+        bi.*,bsi.*,si.*,dsi.*,dsa.*,ui.*,
+        (
+            SELECT 
+                LISTAGG(space_tag_name, ',#') WITHIN GROUP (ORDER BY space_tag_name) 
+            FROM 
+                space_tag 
+            WHERE 
+                space_info_no = si.space_info_no
+        ) AS tags
+    FROM 
+        basic_info bi
+    JOIN 
+        de_sp_add dsa ON bi.basic_info_no = dsa.basic_info_no
+    JOIN 
+        space_info si ON bi.space_info_no = si.space_info_no
+    JOIN 
+        de_sp_info dsi ON dsa.de_sp_info_no = dsi.de_sp_info_no
+    JOIN 
+        bsns_info bsi ON bi.bsns_info_no = bsi.bsns_info_no
+    JOIN 
+        usage_info ui ON bi.usage_info_no = ui.usage_info_no
+	WHERE 
+    dsa.status = 1
+	</select>
+	
+	
+		<select id="select_spaceUses" parameterType="int" resultType="map"><!-- 선택한 유형의 공간 리스트 출력 -->
+	    
+         SELECT 
+        bi.*,bsi.*,si.*,dsi.*,dsa.*,ui.*,
+        (
+            SELECT 
+                LISTAGG(space_tag_name, ',#') WITHIN GROUP (ORDER BY space_tag_name) 
+            FROM 
+                space_tag 
+            WHERE 
+                space_info_no = si.space_info_no
+        ) AS tags
+    FROM 
+        basic_info bi
+    JOIN 
+        de_sp_add dsa ON bi.basic_info_no = dsa.basic_info_no
+    JOIN 
+        space_info si ON bi.space_info_no = si.space_info_no
+    JOIN 
+        de_sp_info dsi ON dsa.de_sp_info_no = dsi.de_sp_info_no
+    JOIN 
+        bsns_info bsi ON bi.bsns_info_no = bsi.bsns_info_no
+    JOIN 
+        usage_info ui ON bi.usage_info_no = ui.usage_info_no
+    JOIN
+        select_use su on si.space_info_no = su.space_info_no
+	WHERE 
+    dsa.status = 1 and su.space_uses_no = #{space_uses_no}
+	</select>
+	
+	
+		<select id="select_spaceTheme" parameterType="int" resultType="map"><!-- 선택한 테바의 공간 리스트 출력 -->
+	    
+         SELECT 
+        bi.*,bsi.*,si.*,dsi.*,dsa.*,ui.*,
+        (
+            SELECT 
+                LISTAGG(space_tag_name, ',#') WITHIN GROUP (ORDER BY space_tag_name) 
+            FROM 
+                space_tag 
+            WHERE 
+                space_info_no = si.space_info_no
+        ) AS tags
+    FROM 
+        basic_info bi
+    JOIN 
+        de_sp_add dsa ON bi.basic_info_no = dsa.basic_info_no
+    JOIN 
+        space_info si ON bi.space_info_no = si.space_info_no
+    JOIN 
+        de_sp_info dsi ON dsa.de_sp_info_no = dsi.de_sp_info_no
+    JOIN 
+        bsns_info bsi ON bi.bsns_info_no = bsi.bsns_info_no
+    JOIN 
+        usage_info ui ON bi.usage_info_no = ui.usage_info_no
+    JOIN 
+        space_theme st ON si.space_theme_no = st.space_theme_no
+	WHERE 
+    dsa.status = 1 and si.space_theme_no = #{space_theme_no}
+	</select>
+	
+	
+	
+	
+	<select id="space_info_seq" resultType="int">
+	 select space_info_seq.nextval from dual
+	</select> 
+	
+	<select id="usage_info_seq" resultType="int">
+	 select usage_info_seq.nextval from dual
+	</select> 
+	
+	<!-- insert 후에 그 시퀀스 가져오기 -->
+	<select id="space_info_currseq" resultType="int">
+	 select space_info_seq.currval from dual
+	</select> 
+	
+	<select id="contact_info_currseq" resultType="int">
+	 select contact_info_seq.currval from dual
+	</select> 
+	
+	<select id="usage_info_currseq" resultType="int">
+	 select usage_info_seq.currval from dual
+	</select> 
+	
+	<select id="basic_info_currseq" resultType="int">
+	 select basic_info_seq.currval from dual
+	</select> 
+	
+	
+
+	<insert id="basic_info_insert" parameterType="basic_info"> <!-- 공간기본정보 -->
+		insert into basic_info values(basic_info_seq.nextval, 
+		#{space_info_no},#{contact_info_no},#{usage_info_no}
+		,#{bsns_info_no},#{host_no},sysdate)
+	</insert>
+
+	<insert id="space_info_insert" parameterType="space_info"> <!-- 공간정보삽입 -->
+		insert into space_info values(space_info_seq.nextval,#{space_info_name},#{space_info_tip},
+		#{space_info_intrd},#{space_info_repimg},#{space_info_adr}
+		,#{space_info_adrinfo},#{space_info_url},#{space_theme_no})
+	</insert>	
+	
+	<insert id="contact_info_insert" parameterType="contact_info"> <!-- 연락처정보 -->
+		insert into contact_info values(contact_info_seq.nextval, #{contact_info_email}
+		, #{contact_info_phone}, #{contact_info_main}, #{contact_info_vrtl} )
+	</insert>
+	
+	<insert id="usage_info_insert" parameterType="usage_info"> <!-- 이용정보 -->
+		insert into usage_info values(usage_info_seq.nextval, #{tm_no_start}
+		, #{tm_no_end}, #{usage_info_floor}, #{usage_info_park}, #{usage_info_elvtr} )
+	</insert>
+	
+	
+	<select id="selectUsageTm" parameterType="int" resultType="usage_info"> <!--이용시간-->
+	select tm_no_start, tm_no_end from usage_info u,basic_info b where u.usage_info_no = b.usage_info_no and b.basic_info_no = #{basic_info_no} 
+	</select>
+	<insert id="space_tag_insert" parameterType="String"> <!-- 태그 최대 5개 까지 삽입 -->
+		<!-- insert into space_tag values(space_tag_seq.nextval, #{space_tag_name}, #{space_info_no}) -->
+	insert into SPACE_TAG values(space_tag_seq.nextval, #{space_tag_name},SPACE_INFO_seq.CURRVAL )
+	</insert>	
+	
+	<insert id="space_img_insert" parameterType="String"> <!-- 이미지 최대 5개 까지 삽입 -->
+		<!-- insert into space_img values(space_img_seq.nextval, #{space_img_path}, #{space_info_no}) -->
+		insert into space_img values(space_img_seq.nextval, #{space_img_path}, SPACE_INFO_seq.CURRVAL )
+	</insert>
+	
+	<insert id="select_use_insert" parameterType="int"> <!-- 공간 용도 선택 -->
+	<!-- 	insert into select_use values(select_use_seq.nextval, #{space_uses_no}, #{space_info_no}) -->
+		insert into select_use values(select_use_seq.nextval, #{space_uses_no}, SPACE_INFO_seq.CURRVAL )
+	</insert>
+	
+	
+	
+		
+	<insert id="fclty_guide_insert" parameterType="String"> <!-- 시설안내삽입 -->
+		<!-- insert into fclty_guide values(fclty_guide_seq.nextval, #{fclty_guide_content}, #{space_info_no}) -->
+		insert into fclty_guide values(fclty_guide_seq.nextval, #{fclty_guide_content}, SPACE_INFO_seq.CURRVAL )
+	</insert>
+	
+	<insert id="rsrvt_notes_insert" parameterType="String"> <!-- 예약시 주의사항 -->
+		<!-- insert into rsrvt_notes values(rsrvt_notes_seq.nextval, #{rsrvt_notes_content}, #{space_info_no}) -->
+		insert into rsrvt_notes values(rsrvt_notes_seq.nextval, #{rsrvt_notes_content}, SPACE_INFO_seq.CURRVAL )
+	</insert>
+	
+	<insert id="reg_closed_insert" parameterType="reg_closed"> <!-- 정기휴무일 -->
+		insert into reg_closed values(reg_closed_seq.nextval, usage_info_seq.CURRVAL, #{day_week_no})
+	</insert>
+	
+	<insert id="dsg_closed_insert" parameterType="dsg_closed"> <!-- 지정휴무일 -->
+		insert into dsg_closed values(dsg_closed_seq.nextval, #{dsg_closed_day}
+		, usage_info_seq.CURRVAL  )
+	</insert>
+	
+	<select id="selectGuide" parameterType="int" resultType="fclty_guide">
+		select * from fclty_guide where space_info_no = #{space_info_no}
+	</select>
+	
+	<select id="selectNotes" parameterType="int" resultType="rsrvt_notes">
+		select * from rsrvt_notes where space_info_no = #{space_info_no}
+	</select>
+	<select id="selectTag" parameterType="int" resultType="space_tag">
+		select * from space_tag where space_info_no = #{space_info_no}
+	</select>
+	
+	<select id="closedDay" parameterType="int" resultType="day_week">
+		select * from reg_closed rc,day_week de where  rc.usage_info_no= #{usage_info_no} and rc.day_week_no = de.day_week_no order by de.day_week_no
+	</select>
+	
+	<select id="selectusageSeq" parameterType="int" resultType="int">
+	    select u.usage_info_no from usage_info u, basic_info b where u.usage_info_no = b.usage_info_no and b.basic_info_no = #{basic_info_no}
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

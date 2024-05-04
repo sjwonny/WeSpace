@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="detaarea">
+
+
+<select id="selectList" resultType="detaarea">
+		<!-- SELECT distinct detaarea_city FROM detaarea order by detaarea_city asc --> <!-- 아래와 다른 결과임 -->
+	SELECT detaarea_city, detaarea_no FROM detaarea WHERE ROWID IN (SELECT MAX(ROWID) FROM detaarea GROUP BY detaarea_city) ORDER BY detaarea.detaarea_no
+</select> 
+
+
+<select id="selectAll" resultType="detaarea">
+	select * from detaarea order by detaarea_no
+</select>  <!-- 모든 시/도명과 지역명 가져옴 -->
+
+ <!-- 관심지역 뽑기 -->
+ <select id="selectDetaarea" parameterType="int" resultType="detaarea">
+ 	select * from intrarea i, guest g, detaarea d where i.guest_no = g.guest_no and i.DETAAREA_NO = d.detaarea_no and i.guest_no = #{guest_no}
+ </select>
+
+
+</mapper>
