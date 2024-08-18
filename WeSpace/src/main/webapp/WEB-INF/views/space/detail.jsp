@@ -35,7 +35,8 @@
 .flex{
 width:55%
 }
-</style> <style>
+</style>
+ <style>
 #container {overflow:hidden;height:300px;position:relative;}
 #btnRoadview,  #btnMap {position:absolute;top:5px;left:5px;padding:7px 12px;font-size:14px;border: 1px solid #dbdbdb;background-color: #fff;border-radius: 2px;box-shadow: 0 1px 1px rgba(0,0,0,.04);z-index:1;cursor:pointer;}
 #btnRoadview:hover,  #btnMap:hover{background-color: #fcfcfc;border: 1px solid #c1c1c1;}
@@ -44,7 +45,7 @@ width:55%
 #container.view_roadview #mapWrapper {z-index: 0;}
 #container.view_roadview #btnRoadview {display: none;}
 </style>
-
+<body>
 <div class="contents_padded">
 	<div class="section_cont">
 		<div class="inner_width">
@@ -266,7 +267,92 @@ width:55%
 <div  style="font-size: 40px;">🚩${allDetail.SPACE_INFO_NAME} </div>
 <div  style="font-size: 20px;"> ${allDetail.SPACE_INFO_ADR } </div>
 <Br><Br>
-git pull origin main
+<div id="container" class="view_map">
+    <div id="mapWrapper" style="width:100%;height:300px;position:relative;">
+        <div id="map" style="width:100%;height:350px;"></div>
+        <input type="button" id="btnRoadview" onclick="toggleMap(false)" title="로드뷰 보기" value="로드뷰">
+    </div>
+    <div id="rvWrapper" style="width:100%;height:300px;position:absolute;top:0;left:0;">
+        <div id="roadview" style="height:100%"></div> <!-- 로드뷰를 표시할 div 입니다 -->
+        <input type="button" id="btnMap" onclick="toggleMap(true)" title="지도 보기" value="지도">
+    </div>
+</div>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=22cc23c5e09bec247548cf8e26150476&libraries=services"></script>
+<script>
+var container = document.getElementById('container'),
+    mapWrapper = document.getElementById('mapWrapper'),
+    btnRoadview = document.getElementById('btnRoadview'),
+    btnMap = document.getElementById('btnMap'),
+    rvContainer = document.getElementById('roadview'),
+    mapContainer = document.getElementById('map');
+
+var mapOption = {
+    center: new kakao.maps.LatLng(33.450701, 126.570667),
+    level: 3
+};  
+
+var map = new kakao.maps.Map(mapContainer, mapOption); 
+map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);   
+var zoomControl = new kakao.maps.ZoomControl();
+map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+var geocoder = new kakao.maps.services.Geocoder();
+
+geocoder.addressSearch('${allDetail.SPACE_INFO_ADR}', function(result, status) {
+    if (status === kakao.maps.services.Status.OK) {
+        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+        var roadview = new kakao.maps.Roadview(rvContainer);
+        var roadviewClient = new kakao.maps.RoadviewClient();
+
+        // 좌표로 가장 가까운 파노라마 ID를 가져옵니다
+        roadviewClient.getNearestPanoId(coords, 50, function(panoId) {
+            if (panoId !== null) {
+                roadview.setPanoId(panoId, coords);
+                
+                // 로드뷰의 시점(Viewpoint) 설정
+                roadview.setViewpoint({
+                    pan: 321, // 시점의 회전 각도
+                    tilt: 0,  // 시점의 기울기
+                    zoom: 0   // 시점의 줌 레벨
+                });
+            } else {
+                alert('해당 위치에 로드뷰가 없습니다.');
+            }
+        });
+
+        var marker = new kakao.maps.Marker({
+            map: map,
+            position: coords
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+            content: '<div style="width:150px;text-align:center;padding:6px 0;">${allDetail.SPACE_INFO_NAME}</div>'
+        });
+        infowindow.open(map, marker);
+
+        map.setCenter(coords);
+
+        kakao.maps.event.addListener(roadview, 'init', function() {
+            var rvMarker = new kakao.maps.Marker({
+                position: coords,
+                map: roadview
+            });
+        });
+    } 
+});
+
+function toggleMap(active) {
+    if (active) {
+        container.className = "view_map";
+    } else {
+        container.className = "view_roadview";
+    } 
+}
+</script>
+
+
 <script type="text/javascript">
 	function click(e){
 		const menu = document.getElementsByClassName("menu");
@@ -274,7 +360,6 @@ git pull origin main
 		for(var i = 0; i < menu.length; i++){
 			menu[i].className="menu";
 		}
-	
 	}
 </script>
 
