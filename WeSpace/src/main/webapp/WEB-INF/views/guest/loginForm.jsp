@@ -14,6 +14,12 @@
 <html>
 <head>
 <title>로그인창</title>
+<!-- 카카오 로그인 -->
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- 카카오 로그인 -->
+
 <style type="text/css">
 ul{list-style: none;}  /* 리스트 앞에 . 같은거 제거*/
 a{text-decoration: none;} /* 링크에 밑줄 같은거 제거*/
@@ -118,7 +124,7 @@ body{
 			
 			<input type="password" name="guest_pw" placeholder="비밀번호">
 			
-			<label for="remember-check">
+			<label for="remember-check"> 
 			 <c:choose>
 								<c:when test="${check }"> <!-- check가 true라면(쿠키가 있다면)  -->
 									<input type="checkbox" name="ckid" value="true" checked="checked"> <!-- 체크된 상태의 체크박스 -->
@@ -135,16 +141,41 @@ body{
 		</form>
 		<div class="helper_utill">
 			<ul class="helper_list">
-				<li><a id="findEmailBtn" href="${ pageContext.request.contextPath }/guest/findemail" 
-						class="helper_menu"><span class="btn_text">이메일 찾기</span></a></li>
-				<li><a id="findPwBtn" href="${ pageContext.request.contextPath }/guest/findpw"
-						class="helper_menu"><span class="btn_text">비밀번호 찾기</span></a></li>
-				<li><a id="signUpBtn" href="${ pageContext.request.contextPath }/guest/joinform"
-						class="helper_menu"><span class="btn_text">회원가입</span></a></li>	
+				<li><a id="findEmailBtn"
+					href="${ pageContext.request.contextPath }/guest/findemail"
+					class="helper_menu"><span class="btn_text">이메일 찾기</span></a></li>
+				<li><a id="findPwBtn"
+					href="${ pageContext.request.contextPath }/guest/findpw"
+					class="helper_menu"><span class="btn_text">비밀번호 찾기</span></a></li>
+				<li><a id="signUpBtn"
+					href="${ pageContext.request.contextPath }/guest/joinform"
+					class="helper_menu"><span class="btn_text">회원가입</span></a></li>
 			</ul>
 		</div>
+		<ul>
+    <li onclick="kakaoLogin();">
+        <a href="javascript:void(0)">
+        <img class="img-logo" src="${pageContext.request.contextPath}/resources/images/kakao_login.png"  style="width: 318px; height: 60px;">
+        </a>
+      </li>
+  </ul>
 	</div>
 </body>
+<script>
+  //카카오로그인
+  function kakaoLogin() {
+
+    $.ajax({
+        url: '${pageContext.request.contextPath}/guest/getKakaoAuthUrl',
+        type: 'get',
+        async: false,
+        dataType: 'text',
+        success: function (res) {
+            location.href = res;
+        }
+    });
+  }
+  </script>
 </html>
 
 

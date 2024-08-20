@@ -11,6 +11,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from guest where guest_email = #{guest_email} and guest_pw = #{guest_pw} and status = 0
 	</select>
 	
+	<!-- 카카오 일치하는 닉네임으로 정보 불러오기 -->
+	<select id="kakaoInfo" resultType="int" parameterType="String">
+		select guest_no
+		from guest where guest_nickname = #{guest_nickname} and status = 0
+	</select>
+	
 	
 	
 	<select id="checkId" parameterType="String" resultType="String"><!-- 입력한 닉네임이 데이터로 저장돼있다면 그 닉네임을 가져와라 -->

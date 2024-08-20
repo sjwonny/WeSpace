@@ -32,6 +32,18 @@ public class GuestDAO {
 
 		return no;
 	}
+	public int kakaoInfo(String guest_nickname) {
+		
+		int no = 0;
+		
+		try {
+			no = sqlSession.selectOne("guest.kakaoInfo",guest_nickname);
+		} catch (NullPointerException e) {//예외가 발생하면 
+			e.printStackTrace();
+		}
+		
+		return no;
+	}
 	
 	
 	public String checkId(String guest_nickname) {

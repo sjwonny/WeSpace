@@ -4,6 +4,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script>
+function logout(){
+location.href = " https://kauth.kakao.com/oauth/logout?client_id=6b9cc9b9332b5f3938aa598be9333394&logout_redirect_uri=http://localhost:8080/space/guest/logout";
+} 
+</script>
 <meta charset="UTF-8">
 
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css">
@@ -382,7 +387,7 @@
 						</ul> -->
 					<div class="service_menu">
 						<c:if test="${!empty login }">
-							<a href="${pageContext.request.contextPath }/guest/logout">로그아웃</a>
+						 <button onclick="logout();">로그아웃</button>
 						</c:if>
 						<p class="copyright">Powered by © NSPACE Corp.</p>
 					</div>

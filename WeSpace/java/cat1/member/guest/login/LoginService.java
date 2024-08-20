@@ -19,6 +19,9 @@ public class LoginService {
 	public int checkLogin(GuestVO vo) {
 		return guestDao.checkLogin(vo);
 	}
+	public int kakaoInfo(String guest_nickname) {
+		return guestDao.kakaoInfo(guest_nickname);
+	}
 	
 	 public boolean checkId(String guest_nickname) {
 	    	return guestDao.checkId(guest_nickname) != null;

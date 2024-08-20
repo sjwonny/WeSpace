@@ -1,29 +1,35 @@
 package cat1.member.guest.login;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
-
-import java.util.Arrays;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.JsonObject;
 
 import common.ViewPath;
 import all.vo.GuestVO;
-import all.vo.HostVO;
 import cat1.coupon.service.CpnService;
 import cat1.profile.service.ProfileService;
-import cat1.profile.vo.DetaareaVO;
-import cat1.profile.vo.InterestVO;
-import cat1.profile.vo.IntrareaVO;
-import cat1.profile.vo.LfstyVO;
-import cat1.profile.vo.ProfileVO;
 import cat2.rsrvt.service.RsrvtService;
 
 @Controller
@@ -52,7 +58,7 @@ public class LoginController {
 	
 	@RequestMapping("loginform")
 	public String loginForm(HttpServletRequest request,String guest_email) {
-		
+	
      boolean check = false; 
 		
 		if(guest_email == null) {
@@ -80,16 +86,25 @@ public class LoginController {
 
 	
 	@RequestMapping("login/check")
-	public String checkLogin(HttpServletRequest request, HttpServletResponse response, GuestVO vo) {
-
-		int no = loginService.checkLogin(vo);
+	public String checkLogin(HttpServletRequest request, HttpServletResponse response,Model model, GuestVO vo, @RequestParam(value = "guest_nickname", required = false) String guestNickname) {
+		int no = 0;
+		String msg = null;
+		String url = null;
+		boolean check = false;
+		    if (vo != null && vo.getGuest_email() != null && vo.getGuest_pw() != null) {
+		        // loginForm.jsp에서 온 경우: 이메일과 비밀번호를 통해 로그인 체크
+		        no = loginService.checkLogin(vo);
+		    } else if (guestNickname != null) {
+		        // kakaoLogin.jsp에서 온 경우: 닉네임을 통해 로그인 정보 조회
+		        no = loginService.kakaoInfo(guestNickname);
+		    } 
+		
+		
 		int badgeCnt = profileService.badgeCnt(no);
 		GuestVO gvo = profileService.selectOne(no);
 		int countCpn = cpnService.countMyCpn(no);
 		
-		String msg = null;
-		String url = null;
-		boolean check = false;
+		
 
 		if (no != 0) { //회원정보를 조회했으나 없었다면 0 있었다면 !=0(로그인 성공)
 			msg = "로그인 성공!";
@@ -153,10 +168,12 @@ public class LoginController {
 				}
 			}
 
-		} else {
-			msg = "이메일 혹은 비밀번호가 잘못되었습니다.";
-			url = "/space/guest/loginform";
-		}
+		}   // 로그인 실패 시
+	    else {
+	       msg = "로그인 정보가 올바르지 않습니다. 다시 로그인해 주세요.";
+
+	        url = "/space/guest/loginform";
+	    }
 
 		request.setAttribute("msg", msg);
 		request.setAttribute("url", url);
@@ -165,6 +182,10 @@ public class LoginController {
 		return ViewPath.GUEST + "loginResult.jsp";
 
 	}
+	
+	
+
+	
 	
 	
 	@RequestMapping(value = "checkId",produces = "application/text;charset=utf8") // application/text;charset=utf8 : 텍스트 데이터를 생성하고, 문자 인코딩은 UTF-8로 설정되어 있다는 것을 의미
@@ -342,5 +363,125 @@ public class LoginController {
 	    	return ViewPath.GUEST+ "joinResult.jsp";
 		}
 	 
-	 
-}
+		@RequestMapping(value = "getKakaoAuthUrl")
+		public @ResponseBody String getKakaoAuthUrl(
+				HttpServletRequest request) throws Exception {
+			String reqUrl = 
+					"https://kauth.kakao.com/oauth/authorize"
+					+ "?client_id=6b9cc9b9332b5f3938aa598be9333394" //rest api
+					+ "&redirect_uri=http://localhost:8080/space/guest/kakao" //redirect uri
+					+ "&response_type=code";
+			
+			return reqUrl;
+		}
+		// 카카오 연동정보 조회
+		@RequestMapping(value = "kakao")
+		public String oauthKakao(
+				@RequestParam(value = "code", required = false) String code
+				, Model model) throws Exception {
+
+			System.out.println("#########" + code);
+	        String access_Token = getAccessToken(code);
+	        System.out.println("###access_Token#### : " + access_Token);
+	        
+	        
+	        HashMap<String, Object> userInfo = getUserInfo(access_Token);
+	        System.out.println("###access_Token#### : " + access_Token);
+	        System.out.println("###nickname#### : " + userInfo.get("nickname"));
+	        JSONObject kakaoInfo =  new JSONObject(userInfo);
+	        
+	        model.addAttribute("kakaoInfo", kakaoInfo);
+	        
+	       return ViewPath.GUEST +"kakaoLogin.jsp"; //본인 원하는 경로 설정
+		}
+		
+		//토큰발급
+		public String getAccessToken (String authorize_code) {
+		    String access_Token = "";
+		    String refresh_Token = "";
+		    String reqURL = "https://kauth.kakao.com/oauth/token";
+		    String result = ""; // result 변수 선언
+
+		    try {
+		        URL url = new URL(reqURL);
+		        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		        conn.setRequestMethod("POST");
+		        conn.setDoOutput(true);
+
+		        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
+		        StringBuilder sb = new StringBuilder();
+		        sb.append("grant_type=authorization_code");
+		        sb.append("&client_id=6b9cc9b9332b5f3938aa598be9333394");  //본인이 발급받은 key
+		        sb.append("&redirect_uri=http://localhost:8080/space/guest/kakao");     // 본인이 설정해 놓은 경로
+		        sb.append("&code=").append(authorize_code);
+		        bw.write(sb.toString());
+		        bw.flush();
+
+		        int responseCode = conn.getResponseCode();
+		        System.out.println("responseCode : " + responseCode);
+
+		        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+		        String line = "";
+
+		        while ((line = br.readLine()) != null) {
+		            result += line;
+		        }
+		        System.out.println("response body : " + result);
+
+		        JsonElement element = JsonParser.parseString(result);
+		        access_Token = element.getAsJsonObject().get("access_token").getAsString();
+		        refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
+
+		        System.out.println("access_token : " + access_Token);
+		        System.out.println("refresh_token : " + refresh_Token);
+
+		        br.close();
+		        bw.close();
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		    }
+
+		    return access_Token;
+		}
+
+		
+		//유저정보조회
+		public HashMap<String, Object> getUserInfo(String access_Token) {
+		    HashMap<String, Object> userInfo = new HashMap<>();
+		    String reqURL = "https://kapi.kakao.com/v2/user/me";
+		    String result = ""; // result 변수 선언
+
+		    try {
+		        URL url = new URL(reqURL);
+		        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		        conn.setRequestMethod("GET");
+		        conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+
+		        int responseCode = conn.getResponseCode();
+		        System.out.println("responseCode : " + responseCode);
+
+		        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+		        String line = "";
+		        System.out.println("카카오 getUserInfo 성공 ");
+		        while ((line = br.readLine()) != null) {
+		            result += line;
+		        }
+		        System.out.println("response body : " + result);
+
+		        JsonElement element = JsonParser.parseString(result);
+		        JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
+		        JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
+
+		        String nickname = properties.getAsJsonObject().get("nickname").getAsString();
+
+		        userInfo.put("accessToken", access_Token);
+		        userInfo.put("nickname", nickname);
+
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		    }
+
+		    return userInfo;
+		}
+
+	 }
