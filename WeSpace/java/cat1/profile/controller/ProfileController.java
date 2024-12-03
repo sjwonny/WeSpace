@@ -200,6 +200,7 @@ public class ProfileController {
 		 public ResponseEntity<String> uploadImage(@RequestParam("img") MultipartFile img,HttpServletRequest request) {
 
 			
+			System.out.println("화긴스" );
 			Integer no = (Integer)request.getSession().getAttribute("login"); //이렇게 써도 됨(그럼 매개변수에 세션 없어도 됨)
 			
 	        if (!img.isEmpty()) {
@@ -207,7 +208,28 @@ public class ProfileController {
 	            try {
 	                // 여기에서 img를 사용하여 업로드된 파일 처리
 	                // 예를 들어, 파일을 저장하거나 다른 작업을 수행할 수 있습니다.
-	            	String savePath = application.getRealPath("/resources/update/");
+	            	String savePath = "C:\\img";
+	            	System.out.println("세이브패스" + savePath);
+	            	
+	            	
+	            	 // DB에서 현재 게스트의 정보를 조회하여 기존 이미지 파일명 가져오기
+	                GuestVO existingGuest = profileService.selectOne(no);
+	                String oldFilename = existingGuest.getGuest_img(); // 'guest_img' 컬럼에서 기존 파일 이름 가져오기
+	                
+	                // 기존 이미지 파일 삭제
+	                if (oldFilename != null && !oldFilename.isEmpty()) {
+	                    File oldFile = new File(savePath, oldFilename);
+	                    if (oldFile.exists()) {
+	                        boolean isDeleted = oldFile.delete();
+	                        if (isDeleted) {
+	                            System.out.println("기존 파일 삭제 성공: " + oldFilename);
+	                        } else {
+	                            System.out.println("기존 파일 삭제 실패: " + oldFilename);
+	                        }
+	                    } else {
+	                        System.out.println("기존 파일이 존재하지 않습니다: " + oldFilename);
+	                    }
+	            	
 	            	// 업로드된 파일의 원래 파일 이름
 	                String originalFilename = img.getOriginalFilename();
 

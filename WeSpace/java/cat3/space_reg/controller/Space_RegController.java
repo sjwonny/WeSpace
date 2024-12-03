@@ -93,7 +93,8 @@ public class Space_RegController {
 		
 		
 		
-        String savePath = application.getRealPath("/resources/imgfile/");//저장해줄 경로
+//        String savePath = application.getRealPath("/resources/imgfile/");//저장해줄 경로 //이 경로는 시간 지나면 폴더,사진 사라짐
+        String savePath = "C:\\spaceimg";//저장해줄 경로 (여기에 하면 안 사라짐, 대신 사진변경할 때 삭제도 같이 해줘야 쌓이지 않음 )
 		
 		MultipartFile img = vo.getPhoto();
 		

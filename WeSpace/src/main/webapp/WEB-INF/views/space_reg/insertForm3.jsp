@@ -60,7 +60,79 @@
   font-size:15px;
   text-align:center;
 	}
-	
+input[type="text"],
+input[type="date"],
+select {
+    border-radius: 8px; /* 둥근 모서리 */
+    background-color: #FFFFFF; /* 흰색 배경 */
+    border: 1px solid #D6B9FF; /* 연보라색 테두리 */
+    padding: 5px 10px; /* 패딩을 추가하여 모양 개선 */
+    font-size: 15px; /* 글자 크기 조정 */
+    color: #4A2C79; /* 대비가 잘 되는 짙은 텍스트 색상 */
+    width: auto; /* 내용에 맞는 너비로 설정 */
+    margin: 5px 0; /* 입력 필드 주변 여백 */
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="button"]:focus,
+select:focus {
+    outline: none; /* 포커스 시 기본 테두리 제거 */
+    border-color: #A66AE1; /* 포커스 시 테두리 색상 변경 */
+}
+input[type="button"] {
+    border-radius: 8px; /* 둥근 모서리 */
+    background-color: #B39DDB; /* 보라색 배경 */
+    border: 1px solid #A66AE1; /* 보라색 테두리 */
+    color: #FFFFFF; /* 흰색 텍스트 */
+    font-size: 15px; /* 글자 크기 */
+    padding: 10px 20px; /* 충분한 패딩 추가 */
+    cursor: pointer; /* 마우스 포인터를 클릭할 수 있게 표시 */
+    width: auto; /* 버튼 너비 자동 조정 */
+    margin: 5px 0; /* 버튼 간 간격 */
+}
+
+input[type="button"]:hover {
+    background-color: #8A56D6; /* 호버 시 조금 더 어두운 보라색 */
+    border-color: #8A56D6; /* 테두리 색도 어두운 보라색으로 변경 */
+}
+/* 라디오 버튼 및 체크박스 스타일 */
+input[type="radio"], input[type="checkbox"] {
+    -webkit-appearance: none; /* 기본 스타일 제거 (Chrome, Safari) */
+    -moz-appearance: none; /* Firefox 기본 스타일 제거 */
+    appearance: none; /* 기본 스타일 제거 */
+    width: 20px;
+    height: 20px;
+    border-radius: 50%; /* 라디오 버튼은 원형으로 */
+    border: 2px solid #A66AE1; /* 보라색 테두리 */
+    background-color: #FFFFFF; /* 흰색 배경 */
+    position: relative;
+    cursor: pointer;
+    margin: 0px 2px; /* 간격 조정 */
+}
+/* 라디오 버튼 선택된 상태 */
+input[type="radio"]:checked {
+    background-color: #A66AE1; /* 선택된 상태는 보라색 배경 */
+    border-color: #A66AE1; /* 선택된 상태의 보라색 테두리 */
+}
+
+/* 체크박스 선택된 상태 */
+input[type="checkbox"]:checked {
+    background-color: #A66AE1; /* 선택된 상태는 보라색 배경 */
+    border-color: #A66AE1; /* 선택된 상태의 보라색 테두리 */
+}
+
+/* 체크박스나 라디오 버튼에 점 추가 */
+input[type="radio"]:checked::before, input[type="checkbox"]:checked::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 10px;
+    height: 10px;
+    background-color: #FFFFFF; /* 흰색 점 */
+    border-radius: 50%; /* 둥근 점 */
+}
 </style>   
 <script>
 // HTML이 로드된 후 실행될 JavaScript 코드

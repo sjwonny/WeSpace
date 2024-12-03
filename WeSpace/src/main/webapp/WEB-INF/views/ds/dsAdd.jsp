@@ -32,7 +32,7 @@
 }
 
 #spaceUsesList ul>li {
-	border: 1px solid #ccc;
+	border: 1px solid #8A4F9E;
 	margin: 5px;
 	padding: 10px;
 	cursor: pointer;
@@ -56,6 +56,7 @@ img {
 	padding: 10px;
 	cursor: pointer;
 	float: left;
+		border-radius: 8px;
 }
 
 
@@ -84,10 +85,10 @@ td {
 /* 버튼의 스타일 */
 input[type="button"] {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color:  #B39DDB;
     color: #fff;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -114,7 +115,7 @@ textarea {
     width: calc(100% -500px); /* 필요에 따라 너비 조절 */
     padding: 8px;
     border-radius: 4px;
-    border: 1px solid #ccc; /* 기본 테두리 색상 */
+    border: 1px solid  #B39DDB; /* 기본 테두리 색상 */
     box-sizing: border-box;
     margin-top: 5px;
     margin-bottom: 10px;

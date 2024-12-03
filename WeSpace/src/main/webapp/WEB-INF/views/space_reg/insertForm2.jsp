@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
- <style>
+<style>
+    <style>
    .hidden{
       display: none;
    }
@@ -61,7 +62,34 @@
   font-size:15px;
   text-align:center;
 	}
-	
+	/* 입력 칸 스타일 */
+input[type="text"], select, input[type="button"] {
+    border-radius: 8px; /* 둥근 모서리 */
+    border: 2px solid #A66AE1; /* 연보라색 테두리 */
+    padding: 5px;
+    font-size: 16px; /* 텍스트 크기 */
+    outline: none; /* 포커스 시 테두리 색상 변경 방지 */
+}
+
+/* 입력칸에 포커스 시 테두리 색상 */
+input[type="text"]:focus, select:focus {
+    border-color: #8A4F9E; /* 포커스 시 더 진한 보라색 테두리 */
+}
+
+/* 버튼 스타일 */
+input[type="button"] {
+    background-color: #B39DDB; /* 보라색 배경 */
+    color: white; /* 흰색 텍스트 */
+    border: none; /* 기본 버튼 테두리 제거 */
+    cursor: pointer;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px; /* 둥근 모서리 */
+}
+
+input[type="button"]:hover {
+    background-color: #8A4F9E; /* 버튼에 마우스 올렸을 때 더 진한 보라색 배경 */
+}
 </style>   
 <script>
 	function input_email(){

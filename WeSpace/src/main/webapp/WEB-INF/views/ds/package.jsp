@@ -11,7 +11,7 @@
  .pop_wrap{
     	width: 100%;
 	    position:fixed;
-	     top:10%;
+	     top:0;
 	     left:0; 
 	     right:0; 
 	     bottom:0; 
@@ -21,7 +21,7 @@
 	     z-index: 9999;
      }
      .pop_inner{
-		
+		margin-top: 100px;
 		background-color: #fff; /* 팝업 창의 배경색을 흰색으로 설정 */
         padding: 20px;
         border-radius: 10px;
@@ -42,6 +42,12 @@
 		vertical-align:middle; 
 		font-size:23px;
 	} 
+	
+input[type="text"], select {
+    border-radius: 8px; /* 모서리 둥글게 */
+    border: 2px solid #B39DDB; /* 연보라색 테두리 */
+    padding: 8px; /* 여백 추가 */
+}
 </style>
 </head>
 <body>

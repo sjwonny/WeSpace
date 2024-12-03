@@ -8,7 +8,7 @@
 
 
 
-	 .col{ 
+	  .col{ 
 		float: left;
 	    width: 50%;
 	    height: 50px;
@@ -26,36 +26,75 @@
 	    background: #fff;
 	    text-align: center;
     }
-    .pop_wrap{
-    	width: 100%;
-	    position:fixed;
-	     top:0;
-	     left:0; 
-	     right:0; 
-	     bottom:0; 
-	     background:rgba(0,0,0,.5); 
-	     font-size:0; 
-	     text-align:center;
-	     margin-top: 270px;
-     }
-	.pop_inner{
-		width: 580px;
-		height: 800px;
-		overflow-X: hidden;
+   .pop_wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 팝업 뒤 배경 색 */
+    z-index: 1000; /* 배경이 팝업 위로 오도록 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-	}
-	.pop_wrap:after{
-		display:inline-block; height:100%; 
-		vertical-align:middle; 
-		content:'';
-	}
+.pop_inner {
+    width: 580px;
+    height: 600px;
+    background-color: white;
+    position: relative;
+    margin-top: 100px;
+    padding: 20px;
+    overflow: auto;  /* 내용이 길어지면 스크롤 가능하도록 */
+    z-index: 10; /* 다른 요소들 위로 올리기 */
+}
+
+.pop_wrap::after {
+    content: ''; /* 배경에 그림자 추가 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3); /* 어두운 배경 */
+    z-index: -1; /* 팝업 내용보다 아래로 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* 그림자 효과 */
+}
+
+hr {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+}
 	.pop_wrap .pop_inner{
 		display:inline-block; 
 		padding:20px 30px; 
 		background:#fff;  
 		vertical-align:middle; 
 		font-size:15px;
-	} 
+	}  
+	.pop_wrap input[type="text"] {
+    border-radius: 8px; /* 모서리 둥글게 */
+    border: 2px solid #B39DDB; /* 연보라색 테두리 */
+    padding: 5px; /* 내부 여백 추가 */
+    width: 80%; /* 입력창이 부모 크기에 맞게 확장 */
+}
+.pop_wrap input[type="button"], .pop_wrap .pop_save{
+    border: none; /* 테두리 제거 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    padding: 10px 15px; /* 버튼 크기 조정 */
+    background-color: #B39DDB; /* 연보라색 배경 */
+    color: #fff; /* 텍스트 색상 */
+    cursor: pointer; /* 커서 변경 */
+    margin-top:20px;
+    transition: background-color 0.3s ease; /* 배경색 변화 애니메이션 */
+    
+}
+
+
+.pop_wrap input[type="button"]:hover {
+    background-color: #9E87C6; /* 버튼 hover 시 색상 변화 */
+}
 </style>
 
 
@@ -66,10 +105,12 @@
 <body>
 <%@ include file="/WEB-INF/views/layout/header.jsp" %>
 <div align="center">
+<div id = "hideText">
 	<h2>시간 단위 가격 설정</h2>
 	반드시 부가세포함가로 금액을 설정해주세요.<br>
 	금액은 1,000원 이상, 100원 단위로 입력이 가능합니다.<br><br></div>
 	<hr>
+	</div>
 <form action="${pageContext.request.contextPath}/ds/timeUpdate" name="time" id="time">
 	<input type="hidden" name="de_sp_add_no" value="${de_sp_add_no}">
 			<div>
@@ -116,7 +157,7 @@
  	 </form>	
 		<!-- 팝업창 -->
 	<c:forEach var="dvo" items="${dlist}">
-    <div id="pop_${dvo.day_week_date}" class="pop_wrap" style="display: none; overflow-X: hidden">
+    <div id="pop_${dvo.day_week_date}" class="pop_wrap" style="display: none; text-align:center; overflow-X: hidden">
         <!-- 각 팝업에 대해 별도의 form을 생성 -->
         <form action="${pageContext.request.contextPath}/ds/timePrice" method="post" name="timePrice_${dvo.day_week_no}">
             <input type="hidden" name="day_week_no" value="${dvo.day_week_no}"> 
