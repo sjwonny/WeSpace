@@ -31,7 +31,7 @@ Spring 프로젝트 - 공간대여 사이트. WE SPACE는 공간을 등록하고
 <br><br><br><br>
 
 
-[로그인 회원가입](https://github.com/sjwonny/WeSpace.wiki.git)](url)
+[로그인 회원가입](https://github.com/sjwonny/WeSpace.wiki.git)
 
 [https://github.com/sjwonny/WeSpace/wiki/%EC%82%AC%EC%9D%B4%EB%93%9C-%EB%B0%94](url)
 
