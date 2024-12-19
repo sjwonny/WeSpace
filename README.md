@@ -29,11 +29,9 @@ Spring 프로젝트 - 공간대여 사이트. WE SPACE는 공간을 등록하고
 
 
 <br><br><br><br>
-
-- **로그인 회원가입**
-  - [상세보기]([https://github.com/USERNAME/REPOSITORY/wiki/Fragment-Details](https://github.com/sjwonny/WeSpace.wiki.git](https://github.com/sjwonny/WeSpace/wiki/%EB%A1%9C%EA%B7%B8%EC%9D%B8---%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85))
-  - [WIKI 이동]([https://github.com/USERNAME/REPOSITORY/wiki](https://github.com/sjwonny/WeSpace.wiki.git))
-[로그인 회원가입](https://github.com/sjwonny/WeSpace.wiki.git](https://github.com/sjwonny/WeSpace/wiki/%EB%A1%9C%EA%B7%B8%EC%9D%B8---%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85)
+- **로그인 및 회원가입**
+  - [상세보기](https://github.com/sjwonny/WeSpace/wiki/%EB%A1%9C%EA%B7%B8%EC%9D%B8---%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85)
+  - [WIKI 이동](https://github.com/sjwonny/WeSpace/wiki)
 
 [https://github.com/sjwonny/WeSpace/wiki/%EC%82%AC%EC%9D%B4%EB%93%9C-%EB%B0%94](url)
 
