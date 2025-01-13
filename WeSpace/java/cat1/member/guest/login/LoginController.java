@@ -364,92 +364,79 @@ public class LoginController {
 		}
 	 
 		@RequestMapping(value = "getKakaoAuthUrl")
-		public @ResponseBody String getKakaoAuthUrl(
+		public @ResponseBody String getKakaoAuthUrl( //카카오 인증페이지로 이동하게하기 위함.
 				HttpServletRequest request) throws Exception {
 			String reqUrl = 
 					"https://kauth.kakao.com/oauth/authorize"
 					+ "?client_id=6b9cc9b9332b5f3938aa598be9333394" //rest api
 					+ "&redirect_uri=http://localhost:8080/space/guest/kakao" //redirect uri
-					+ "&response_type=code";
+					+ "&response_type=code"; //인증코드 받을 것을 지정.
 			
 			return reqUrl;
 		}
 		// 카카오 연동정보 조회
 		@RequestMapping(value = "kakao")
-		public String oauthKakao(
+		public String oauthKakao( //전달받은 인증코드를 이용해 액세스 토큰 요청
 				@RequestParam(value = "code", required = false) String code
 				, Model model) throws Exception {
 
-			System.out.println("#########" + code);
-	        String access_Token = getAccessToken(code);
-	        System.out.println("###access_Token#### : " + access_Token);
-	        
-	        
-	        HashMap<String, Object> userInfo = getUserInfo(access_Token);
-	        System.out.println("###access_Token#### : " + access_Token);
-	        System.out.println("###nickname#### : " + userInfo.get("nickname"));
+	        String access_Token = getAccessToken(code); //토큰발급 메소드 호출
+	        HashMap<String, Object> userInfo = getUserInfo(access_Token); //사용자 정보조회 메소드 호출
 	        JSONObject kakaoInfo =  new JSONObject(userInfo);
 	        
 	        model.addAttribute("kakaoInfo", kakaoInfo);
 	        
-	       return ViewPath.GUEST +"kakaoLogin.jsp"; //본인 원하는 경로 설정
+	       return ViewPath.GUEST +"kakaoLogin.jsp"; //본인 원하는 경로 설정 (사용자 조회 정보를 여기로 전달)
 		}
 		
 		//토큰발급
-		public String getAccessToken (String authorize_code) {
+		public String getAccessToken(String authorize_code) {
 		    String access_Token = "";
-		    String refresh_Token = "";
-		    String reqURL = "https://kauth.kakao.com/oauth/token";
-		    String result = ""; // result 변수 선언
+		    String reqURL = "https://kauth.kakao.com/oauth/token"; // 액세스 토큰을 받을 URL
+		    String result = "";
 
 		    try {
+		        // URL 연결 설정
 		        URL url = new URL(reqURL);
 		        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		        conn.setRequestMethod("POST");
-		        conn.setDoOutput(true);
+		        conn.setDoOutput(true); // POST 방식으로 데이터 전송
 
-		        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
-		        StringBuilder sb = new StringBuilder();
-		        sb.append("grant_type=authorization_code");
-		        sb.append("&client_id=6b9cc9b9332b5f3938aa598be9333394");  //본인이 발급받은 key
-		        sb.append("&redirect_uri=http://localhost:8080/space/guest/kakao");     // 본인이 설정해 놓은 경로
-		        sb.append("&code=").append(authorize_code);
-		        bw.write(sb.toString());
-		        bw.flush();
+		        // 요청 파라미터 작성
+		        String params = "grant_type=authorization_code" +
+		                        "&client_id=6b9cc9b9332b5f3938aa598be9333394" + // 클라이언트 ID
+		                        "&redirect_uri=http://localhost:8080/space/guest/kakao" + // 리다이렉트 URI
+		                        "&code=" + authorize_code; // 인증 코드
 
-		        int responseCode = conn.getResponseCode();
-		        System.out.println("responseCode : " + responseCode);
-
-		        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-		        String line = "";
-
-		        while ((line = br.readLine()) != null) {
-		            result += line;
+		        // 요청 데이터 전송
+		        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"))) {
+		            bw.write(params);
+		            bw.flush();
 		        }
-		        System.out.println("response body : " + result);
 
+		        // 서버 응답 읽기
+		        try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"))) {
+		            String line;
+		            while ((line = br.readLine()) != null) {
+		                result += line; // 응답 결과를 누적
+		            }
+		        }
+
+		        // 응답 결과에서 access_token 추출
 		        JsonElement element = JsonParser.parseString(result);
 		        access_Token = element.getAsJsonObject().get("access_token").getAsString();
-		        refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
 
-		        System.out.println("access_token : " + access_Token);
-		        System.out.println("refresh_token : " + refresh_Token);
-
-		        br.close();
-		        bw.close();
 		    } catch (IOException e) {
 		        e.printStackTrace();
 		    }
 
 		    return access_Token;
 		}
-
-		
 		//유저정보조회
 		public HashMap<String, Object> getUserInfo(String access_Token) {
 		    HashMap<String, Object> userInfo = new HashMap<>();
 		    String reqURL = "https://kapi.kakao.com/v2/user/me";
-		    String result = ""; // result 변수 선언
+		    String result = ""; // result 변수 선언(서버 응답 저장 변수)
 
 		    try {
 		        URL url = new URL(reqURL);
@@ -457,14 +444,14 @@ public class LoginController {
 		        conn.setRequestMethod("GET");
 		        conn.setRequestProperty("Authorization", "Bearer " + access_Token);
 
-		        int responseCode = conn.getResponseCode();
-		        System.out.println("responseCode : " + responseCode);
+		        int responseCode = conn.getResponseCode(); //응답 코드
+//		        System.out.println("responseCode : " + responseCode);
 
 		        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 		        String line = "";
 		        System.out.println("카카오 getUserInfo 성공 ");
 		        while ((line = br.readLine()) != null) {
-		            result += line;
+		            result += line; //응답 결과 저장
 		        }
 		        System.out.println("response body : " + result);
 
@@ -472,7 +459,7 @@ public class LoginController {
 		        JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
 		        JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 
-		        String nickname = properties.getAsJsonObject().get("nickname").getAsString();
+		        String nickname = properties.getAsJsonObject().get("nickname").getAsString(); //닉네임 추출
 
 		        userInfo.put("accessToken", access_Token);
 		        userInfo.put("nickname", nickname);
