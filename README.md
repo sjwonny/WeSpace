@@ -16,7 +16,7 @@ Spring 프로젝트 - 공간대여 사이트. WE SPACE는 공간을 등록하고
 - Framework : Spring Framework
 - Build Tool : Maven
 - Programming Language : Java 11
-- Frontend : HTML, CSS, JavaScript, JSP, Ajax, jQuery
+- Frontend : HTML, CSS, JavaScript, Ajax, jQuery
 - Web Server : Apache Tomcat
 
 
