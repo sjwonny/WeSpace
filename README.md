@@ -8,6 +8,16 @@ Spring 프로젝트 - 공간대여 사이트. WE SPACE는 공간을 등록하고
 |팀원|김윤석|
 |팀원|서지원|
 
+# 개발환경
+- IDE : Spring Tool Suite (STS)
+- Database Tool : SQL Developer
+- Database : Oracle Database
+- Database Framework : MyBatis
+- Framework : Spring Framework
+- Build Tool : Maven
+- Programming Language : Java 11
+- Frontend : HTML, CSS, JavaScript, Ajax, jQuery
+- Web Server : Apache Tomcat
 
 
 # ERD
