@@ -88,93 +88,33 @@ public class Space_RegController {
 		return ViewPath.SPACE_REG + "insertForm.jsp";
 
 	}
-	@RequestMapping("insert")
-	public String Space_reg_insert(Model model, Space_InfoVO vo, HttpServletRequest request) {
-		
-		
-		
-//        String savePath = application.getRealPath("/resources/imgfile/");//저장해줄 경로 //이 경로는 시간 지나면 폴더,사진 사라짐
-        String savePath = "C:\\spaceimg";//저장해줄 경로 (여기에 하면 안 사라짐, 대신 사진변경할 때 삭제도 같이 해줘야 쌓이지 않음 )
-		
-		MultipartFile img = vo.getPhoto();
-		
-		vo.setSpace_info_repimg(img.getOriginalFilename()); 
-		File saveFile = new File(savePath,vo.getSpace_info_repimg());
-		saveFile.mkdirs();
-		 
-	    try {
-	    	img.transferTo(saveFile);
-	    } catch (IllegalStateException | IOException e) {
-	    	e.printStackTrace();
+	 @RequestMapping("insert")
+	    public String spaceRegInsert(Model model, Space_InfoVO vo, HttpServletRequest request) {
+	        // Save path for the image
+	        String savePath = "C:\\spaceimg";
+
+	        // Parse request parameters
+	        String spaceUsesNo = request.getParameter("space_uses_no");
+	        String spaceTagName = request.getParameter("space_tag_name");
+	        String fcltyGuideContent = request.getParameter("fclty_guide_content");
+	        String rsrvtNotesContent = request.getParameter("rsrvt_notes_content");
+
+	        String[] usesValues = spaceUsesNo.split(",");
+	        String[] tagValues = spaceTagName.split(",");
+	        String[] guideValues = fcltyGuideContent.split(",");
+	        String[] noteValues = rsrvtNotesContent.split(",");
+
+	        // Call service for transaction
+	        boolean isInserted = space_regService.insertSpaceInfo(vo, usesValues, tagValues, guideValues, noteValues, savePath);
+
+	        if (isInserted) {
+	            int spaceInfoNo = space_regService.space_info_currseq();
+	            model.addAttribute("space_info_no", spaceInfoNo);
+	            return "redirect:/space_reg/insertform2";
+	        } else {
+	            return "redirect:/space_reg/insertform";
+	        }
 	    }
-		
-		
-		
-		
-		
-		String space_uses_no = request.getParameter("space_uses_no"); // 공간용도 여러개
-		String space_tag_name = request.getParameter("space_tag_name"); // 태그 여러개
-		String fclty_guide_content = request.getParameter("fclty_guide_content"); // 시설 안내 여러개
-		String rsrvt_notes_content = request.getParameter("rsrvt_notes_content"); // 예약시 주의사항 여러개
-
-		String[] uses_values = space_uses_no.split(",");
-		String[] tag_values = space_tag_name.split(",");
-		String[] guide_values = fclty_guide_content.split(",");
-		String[] note_values = rsrvt_notes_content.split(",");
-
-		int seq = space_regService.space_info_seq(); // currval쓰려면 있어야함
-
-		int res = space_regService.space_info_insert(vo); // 공간정보 인서트 //뒤에 기본정보 테이블 insert를 위해 계속 model로 넘겨줘야함.
-
-
-		
-		
-		/*
-		 * Boolean result = Boolean.FALSE; try { Space_InfoVO svo = new Space_InfoVO();
-		 * String dirName = application.getRealPath("/resources/imgfile/"); File folder
-		 * = new File(dirName); if (!folder.exists()) { folder.mkdirs(); }
-		 * 
-		 * // 파일 경로 설정 String filePath = dirName + File.separator +
-		 * photo.getOriginalFilename(); File destination = new File(filePath);
-		 * 
-		 * // 파일 저장 photo.transferTo(destination);
-		 * 
-		 * // Space_InfoVO에 파일 경로 설정 svo.setSpace_info_repimg(filePath);
-		 * 
-		 * result = Boolean.TRUE; } catch (IOException e) { e.printStackTrace(); }
-		 */
-
-		if (res != 0) { // 공간정보를 입력했다면
-			List<String> uses_List = Arrays.asList(uses_values); // 숫자가 들어갈 list공간
-			for (String num : uses_List) {
-				int no = Integer.parseInt(num);
-				int su = connectionService.select_use_insert(no); // 연결테이블 인서트 (기본정보 xml에 존재)
-			}
-
-			List<String> tag_List = Arrays.asList(tag_values);
-			for (String val : tag_List) {
-				int su = connectionService.space_tag_insert(val); // 태그 인서트
-			}
-
-			List<String> guide_List = Arrays.asList(guide_values);
-			for (String val : guide_List) {
-				int su = connectionService.fclty_guide_insert(val); // 시설안내 인서트
-			}
-
-			List<String> note_List = Arrays.asList(note_values);
-			for (String val : note_List) {
-				int su = connectionService.rsrvt_notes_insert(val); // 예약시 주의사항 인서트
-			}
-
-			int space_info_no = space_regService.space_info_currseq();
-			model.addAttribute("space_info_no", space_info_no); // 밑에 메소드에서는 뺴도 됨 얘만 있으면 ok
-
-			return "redirect:/space_reg/insertform2"; // 두번째 입력페이지
-		} else { // 공간정보를 입력하지 않았다면 인서트 창으로
-
-			return "redirect:/space_reg/insertform";
-		}
-	}
 
 	@RequestMapping("insertform2")
 	public String insertForm2(Model model, HttpServletRequest request,
@@ -229,37 +169,29 @@ public class Space_RegController {
 	}
 
 	@RequestMapping("insert3")
-	public String insert3(Model model, Usage_InfoVO uvo, Reg_ClosedVO rvo,Dsg_ClosedVO dvo, HttpServletRequest request,
-			@RequestParam("space_info_no") int space_info_no, @RequestParam("contact_info_no") int contact_info_no, @RequestParam("dayWeekNo[]") String[] dayWeekNos) {
-		Integer no = (Integer) request.getSession().getAttribute("login"); // 이렇게 써도 됨(그럼 매개변수에 세션 없어도 됨)
-		if (no == null) {
-			return "redirect:/host/loginform";
-		}
-		int seq = space_regService.usage_info_seq(); // currval사용하려고
+	public String insert3(Model model, Usage_InfoVO uvo, Reg_ClosedVO rvo, Dsg_ClosedVO dvo, HttpServletRequest request,
+	                      @RequestParam("space_info_no") int space_info_no, @RequestParam("contact_info_no") int contact_info_no,
+	                      @RequestParam("dayWeekNo[]") String[] dayWeekNos) {
+	    Integer no = (Integer) request.getSession().getAttribute("login"); // 세션에서 로그인 정보 확인
+	    if (no == null) {
+	        return "redirect:/host/loginform";
+	    }
 
-		int res = space_regService.usage_info_insert(uvo);
-	
-		
-		 for(int i=0; i < dayWeekNos.length; i++) {
-			 rvo.setDay_week_no(Integer.parseInt(dayWeekNos[i]));
-			int su2 = connectionService.reg_closed_insert(rvo);
-		 }
-		
-		
-		
-		int su3 = connectionService.dsg_closed_insert(dvo);
+	    try {
+	        // 전체 DB 작업을 트랜잭션으로 묶은 서비스 메서드 호출
+	        space_regService.insertUsageInfoAndRelatedData(uvo, rvo, dvo, dayWeekNos);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "redirect:/space_reg/insertform3"; // 트랜잭션 실패 시 돌아갈 페이지
+	    }
 
-		int usage_info_no = space_regService.usage_info_currseq();
+	    int usage_info_no = space_regService.usage_info_currseq();
 
-		if (res != 0) {
-			model.addAttribute("contact_info_no", contact_info_no);
-			model.addAttribute("space_info_no", space_info_no);
-			model.addAttribute("usage_info_no", usage_info_no);
-			return "redirect:/space_reg/insertform4";
-		} else {
-			return "redirect:/space_reg/insertform3";
-		}
+	    model.addAttribute("contact_info_no", contact_info_no);
+	    model.addAttribute("space_info_no", space_info_no);
+	    model.addAttribute("usage_info_no", usage_info_no);
 
+	    return "redirect:/space_reg/insertform4";
 	}
 
 	@RequestMapping("insertform4")
@@ -284,42 +216,36 @@ public class Space_RegController {
 	}
 
 	@RequestMapping("insert4")
-	public String insert4(Model model, Account_InfoVO avo, Refund_StandardVO rvo, Bsns_InfoVO bvo,
-			HttpServletRequest request, @RequestParam("space_info_no") int space_info_no,
-			@RequestParam("contact_info_no") int contact_info_no, @RequestParam("usage_info_no") int usage_info_no) {
-		Integer no = (Integer) request.getSession().getAttribute("login"); // 이렇게 써도 됨(그럼 매개변수에 세션 없어도 됨)
-		if (no == null) {
-			return "redirect:/host/loginform";
-		}
-		int su = bsns_infoService.account_info_insert(avo); // 순서 중요
-		int su1 = bsns_infoService.refund_standard_insert(rvo); // 얘랑 위에 먼저 insert 해야함.
+    public String insert4(Model model, Account_InfoVO avo, Refund_StandardVO rvo, Bsns_InfoVO bvo,
+                          @RequestParam("space_info_no") int space_info_no,
+                          @RequestParam("contact_info_no") int contact_info_no,
+                          @RequestParam("usage_info_no") int usage_info_no, HttpServletRequest request) {
 
-		String msg = null;
-		String url = null;
-		int su2 = bsns_infoService.bsns_info_insert(bvo);
+        // 세션에서 로그인된 사용자의 번호 가져오기
+        Integer no = (Integer) request.getSession().getAttribute("login");
+        if (no == null) {
+            return "redirect:/host/loginform"; // 로그인하지 않으면 로그인 페이지로 리다이렉트
+        }
 
-		int bsns_info_no = bsns_infoService.bsns_info_currseq();
+        // 서비스 호출 (트랜잭션 처리)
+        int basic_info_no =  space_regService.insert4(avo, rvo, bvo, space_info_no, contact_info_no, usage_info_no, no);
 
-		Basic_InfoVO vo = new Basic_InfoVO(); // 객체 생성
+        // 트랜잭션 성공 여부에 따라 메시지와 URL 설정
+        String msg = null;
+        String url = null;
 
-		vo.setSpace_info_no(space_info_no);
-		vo.setContact_info_no(contact_info_no);
-		vo.setUsage_info_no(usage_info_no);
-		vo.setBsns_info_no(bsns_info_no);
-		vo.setHost_no(no);
+        if (basic_info_no > 0) {
+            msg = "공간 등록 완료! 이제 세부 공간 및 가격 정보를 입력해주세요.";
+            url = "/space/ds/dsAdd?basic_info_no=" + basic_info_no + "&space_info_no=" + space_info_no; // get방식으로 보내기
+        } else {
+            msg = "공간 등록 실패! 다시 시도해주세요.";
+            url = "/space/register"; // 실패 시 등록 페이지로 이동
+        }
 
-		int res = space_regService.basic_info_insert(vo);
-		int basic_info_no = space_regService.basic_info_currseq();
+        model.addAttribute("msg", msg);
+        model.addAttribute("url", url);
 
-		if (res != 0) {
-			msg = "공간 등록 완료! 이제 세부 공간 및 가격 정보를 입력해주세요.";
-			url = "/space/ds/dsAdd?basic_info_no=" + basic_info_no + "&space_info_no=" + space_info_no; // get방식으로 보내기
-		}
-
-		model.addAttribute("msg", msg);
-		model.addAttribute("url", url);
-
-		return ViewPath.SPACE_REG + "regiResult.jsp";
-	}
+        return ViewPath.SPACE_REG + "regiResult.jsp"; // 결과 페이지로 리턴
+    }
 
 }

@@ -195,78 +195,56 @@ public class ProfileController {
 	
 	
 
-		@RequestMapping(value = "img",produces = "application/text;charset=utf8") 
-		@ResponseBody 
-		 public ResponseEntity<String> uploadImage(@RequestParam("img") MultipartFile img,HttpServletRequest request) {
+	@RequestMapping(value = "img",produces = "application/text;charset=utf8") 
+	@ResponseBody 
+	 public ResponseEntity<String> uploadImage(@RequestParam("img") MultipartFile img,HttpServletRequest request) {
 
-			
-			System.out.println("화긴스" );
-			Integer no = (Integer)request.getSession().getAttribute("login"); //이렇게 써도 됨(그럼 매개변수에 세션 없어도 됨)
-			
-	        if (!img.isEmpty()) {
-	      
-	            try {
-	                // 여기에서 img를 사용하여 업로드된 파일 처리
-	                // 예를 들어, 파일을 저장하거나 다른 작업을 수행할 수 있습니다.
-	            	String savePath = "C:\\img";
-	            	System.out.println("세이브패스" + savePath);
-	            	
-	            	
-	            	 // DB에서 현재 게스트의 정보를 조회하여 기존 이미지 파일명 가져오기
-	                GuestVO existingGuest = profileService.selectOne(no);
-	                String oldFilename = existingGuest.getGuest_img(); // 'guest_img' 컬럼에서 기존 파일 이름 가져오기
-	                
-	                // 기존 이미지 파일 삭제
-	                if (oldFilename != null && !oldFilename.isEmpty()) {
-	                    File oldFile = new File(savePath, oldFilename);
-	                    if (oldFile.exists()) {
-	                        boolean isDeleted = oldFile.delete();
-	                        if (isDeleted) {
-	                            System.out.println("기존 파일 삭제 성공: " + oldFilename);
-	                        } else {
-	                            System.out.println("기존 파일 삭제 실패: " + oldFilename);
-	                        }
-	                    } else {
-	                        System.out.println("기존 파일이 존재하지 않습니다: " + oldFilename);
-	                    }
-	            	
-	            	// 업로드된 파일의 원래 파일 이름
-	                String originalFilename = img.getOriginalFilename();
-
-	                // 실제 파일 저장 경로
-	                File saveFile = new File(savePath,originalFilename);
-
-	                // 파일 저장
-	                img.transferTo(saveFile);
-	                
-	                
-	                GuestVO vo = new GuestVO();
-	                
-
-	            	vo.setGuest_img(originalFilename);
-	            	vo.setGuest_no(no);
-	            	
-	                int su = profileService.updateImg(vo);
-	                
-	                //업데이트 후의 게스트 정보 가져오기
-	                GuestVO gvo = profileService.selectOne(no);
-	            	//세션 업데이트
-	        	    request.getSession().setAttribute("gvo",gvo);	     
-	        	    
-	        	    
-	                // 파일을 저장하고 나면 성공 응답을 반환
-	                return new ResponseEntity<>("업로드 성공", HttpStatus.OK);
-	            } catch (Exception e) {
-	                e.printStackTrace();
-	                // 파일 처리 중 오류가 발생한 경우 실패 응답을 반환
-	                return new ResponseEntity<>("업로드 실패", HttpStatus.INTERNAL_SERVER_ERROR);
-	            }
-	        } else {
-	            // 업로드된 파일이 없는 경우 실패 응답을 반환
-	            return new ResponseEntity<>("파일이 선택되지 않았습니다.", HttpStatus.BAD_REQUEST);
-	        }
-	    }
 		
+		Integer no = (Integer)request.getSession().getAttribute("login"); //이렇게 써도 됨(그럼 매개변수에 세션 없어도 됨)
+		
+        if (!img.isEmpty()) {
+      
+            try {
+                // 여기에서 img를 사용하여 업로드된 파일 처리
+                // 예를 들어, 파일을 저장하거나 다른 작업을 수행할 수 있습니다.
+            	String savePath = application.getRealPath("/resources/update/");
+            	// 업로드된 파일의 원래 파일 이름
+                String originalFilename = img.getOriginalFilename();
+
+                // 실제 파일 저장 경로
+                File saveFile = new File(savePath,originalFilename);
+
+                // 파일 저장
+                img.transferTo(saveFile);
+                
+                
+                GuestVO vo = new GuestVO();
+                
+
+            	vo.setGuest_img(originalFilename);
+            	vo.setGuest_no(no);
+            	
+                int su = profileService.updateImg(vo);
+                
+                //업데이트 후의 게스트 정보 가져오기
+                GuestVO gvo = profileService.selectOne(no);
+            	//세션 업데이트
+        	    request.getSession().setAttribute("gvo",gvo);	     
+        	    
+        	    
+                // 파일을 저장하고 나면 성공 응답을 반환
+                return new ResponseEntity<>("업로드 성공", HttpStatus.OK);
+            } catch (Exception e) {
+                e.printStackTrace();
+                // 파일 처리 중 오류가 발생한 경우 실패 응답을 반환
+                return new ResponseEntity<>("업로드 실패", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } else {
+            // 업로드된 파일이 없는 경우 실패 응답을 반환
+            return new ResponseEntity<>("파일이 선택되지 않았습니다.", HttpStatus.BAD_REQUEST);
+        }
+    }
+	
 		@RequestMapping("badge")
 		public String badge(Model model,HttpServletRequest request) { 
 			Integer no = (Integer)request.getSession().getAttribute("login");

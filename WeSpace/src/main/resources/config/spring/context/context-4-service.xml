@@ -59,6 +59,8 @@
 		<constructor-arg ref="contact_infoDao"/>
 		<constructor-arg ref="usage_infoDao"/>
 		<constructor-arg ref="basic_infoDao"/>
+		<constructor-arg ref="connectionService"/>
+		<constructor-arg ref="Bsns_InfoService"/>
 	</bean> 
 	
 	
